@@ -8,8 +8,9 @@
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
  * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
  *
- * Modifications:
- *	$Id$
+ * History:
+ *	2011.12.09	T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *
  */
 
 #include <stddef.h>

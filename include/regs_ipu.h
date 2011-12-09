@@ -1,9 +1,15 @@
 /*
  * include/regs_ipu.h --
  *
- * Copyright 2010-2011 ZealTek CO., LTD.
- *	2011.11.22	T.C. Chiu <tc.chiu@zealtek.com.tw>
+ * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
+ *		T.C. Chiu <tc.chiu@zealtek.com.tw>
  *
+ *
+ * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ *
+ * History:
+ *	2011.11.22	T.C. Chiu <tc.chiu@zealtek.com.tw>
  *
  */
 
@@ -144,5 +150,56 @@
 #define IPU_CH1_JMP0			(IPU_BASE+0x007F)	/* R/W,    0, Channel1 addres jump 7~0			*/
 #define IPU_CH1_JMP1			(IPU_BASE+0x0080)	/* R/W,    0, Channel1 addres jump 15~8			*/
 #define IPU_CH1_JMP2			(IPU_BASE+0x0081)	/* R/W,    0, Channel1 addres jump 23~16		*/
+
+
+/*
+ * Structure Definition
+ */
+struct ipuctrl {
+	// sensor interface
+	unsigned short	width;
+	unsigned short	height;
+	unsigned short	crop;
+	unsigned char	lstart;
+	unsigned char	lend;
+	
+	// memory interface
+	unsigned long	fb1;
+	unsigned long	fb2;
+	unsigned long	fb3;
+	unsigned long	jmp;
+
+	// control
+	unsigned short	overlap;
+
+	union {
+		unsigned char	a;
+		struct {
+			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlaced
+			unsigned char	rsv0	: 1;	// reserve
+			unsigned char	format	: 1;	// 0 = raw8/yuv,    1 = raw10
+			unsigned char	rsv1	: 1;	// reserve
+			unsigned char	online	: 1;	// 0 = off-line,    1 = on-line
+			unsigned char	rsv2	: 1;	// reserve
+			unsigned char	rsv3	: 1;	// reserve
+			unsigned char	rsv4	: 1;	// reserve
+		} b;
+	} cf1;
+	union {
+		unsigned char	a;
+		struct {
+			unsigned char	ext	: 4;
+			unsigned char	sync	: 2;	// 0 = , 1 = , 2 = , 3 =
+			unsigned char	sedge	: 1;	// 0 = rising-edge, 1 = falling-edge
+			unsigned char	hmode	: 1;	// 0 = H-SYNC,      1 = HREF
+		} b;
+	} cf2;
+};
+
+
+
+
+
+
 
 #endif /* __REGS_IPU_H__ */

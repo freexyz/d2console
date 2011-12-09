@@ -35,6 +35,7 @@ static __code const char	*d2_banner = {
  */
 void main(void)
 {
+
 	SIMPORT(0x10);
 
 	/* initial deivce */

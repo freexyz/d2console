@@ -22,6 +22,7 @@
  */
 /* test command */
 extern command_t	cmd_memtst_t;
+extern command_t	cmd_loopback_t;
 
 /* utility command */
 extern command_t	cmd_xmodem_send_t;
@@ -44,6 +45,8 @@ extern command_t	cmd_help_t;
 
 
 __code const command_t		*cmd_tbl[] = {
+
+	&cmd_loopback_t,
 
 #if (CONFIG_DVT_MEM)
 	&cmd_memtst_t,

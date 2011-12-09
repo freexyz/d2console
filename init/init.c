@@ -26,26 +26,64 @@
 
 void d2_init(void)
 {
+#if (CONFIG_FOSC < 48000000UL)
+	__iow8(CLKSEL, 0x04);
+#else
 	__iow8(CLKSEL, 0x00);
+#endif
 
 #if (SIU_FIRST == 1)
 	/*
 	 * siu initial
 	 */
 	SIMPORT(0x13);
+
 	// initial ch0
-	siu_set_fb(CH0, 0x00200000, 0x00400000, 0x00600000);
-	siu_set_szjmp(CH0, 640, 480, 640);
-	siu_set_xyoffset(CH0, 20, 5);
+	siu[0].x_ofs  = 20;
+	siu[0].y_ofs  = 5;
+	siu[0].width  = 640;
+	siu[0].height = 480;
+	siu[0].fb1    = 0x00200000;
+	siu[0].fb2    = 0x00400000;
+	siu[0].fb3    = 0x00600000;
+	siu[0].jmp    = 640;
 
 	// initial ch1
-	siu_set_fb(CH1, 0x00800000, 0x00a00000, 0x00c00000);
-	siu_set_szjmp(CH1, 640, 480, 640);
-	siu_set_xyoffset(CH1, 20, 5);
+	siu[1].x_ofs  = 20;
+	siu[1].y_ofs  = 5;
+	siu[1].width  = 640;
+	siu[1].height = 480;
+	siu[1].fb1    = 0x00800000;
+	siu[1].fb2    = 0x00a00000;
+	siu[1].fb3    = 0x00c00000;
+	siu[1].jmp    = 640;
 
-	// initial ch0 & ch1 mode, RAW8, VSYNC high active, HSYNC high active
-	siu_set_mode(BOTH, 0x22);
+	// initial ch0 mode, RAW8, VSYNC high active, HSYNC high active
+	siu[0].cf1.b.scan   = 0;
+	siu[0].cf1.b.format = 0;
+	siu[0].cf1.b.online = 0;
+
+	siu[0].cf2.b.ext    = 2;
+	siu[0].cf2.b.sync   = 2;
+	siu[0].cf2.b.sedge  = 0;
+	siu[0].cf2.b.hmode  = 0;
+
+	// initial ch1 mode, RAW8, VSYNC high active, HSYNC high active
+	siu[1].cf1.b.scan   = 0;
+	siu[1].cf1.b.format = 0;
+	siu[1].cf1.b.online = 0;
+
+	siu[1].cf2.b.ext    = 2;
+	siu[1].cf2.b.sync   = 2;
+	siu[1].cf2.b.sedge  = 0;
+	siu[1].cf2.b.hmode  = 0;
+
+
+	// write to hardware register
+	siu_init();
 	siu_startup();
+
+
 #endif
 
 	/*
@@ -114,15 +152,8 @@ void d2_init(void)
 	 * siu initial
 	 */
 	SIMPORT(0x13);
-	// initial ch0
-	siu_set_fb(CH0, 0x00200000, 0x00400000, 0x00600000);
-	siu_set_szjmp(CH0, 640, 480, 640);
-	siu_set_xyoffset(CH0, 20, 5);
 
-	// initial ch1
-	siu_set_fb(CH1, 0x00800000, 0x00a00000, 0x00c00000);
-	siu_set_szjmp(CH1, 640, 480, 640);
-	siu_set_xyoffset(CH1, 20, 5);
+
 
 	// initial ch0 & ch1 mode, RAW8, VSYNC high active, HSYNC high active
 	siu_set_mode(BOTH, 0x22);

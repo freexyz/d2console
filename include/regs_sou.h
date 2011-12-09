@@ -132,4 +132,51 @@
 #define	SOU_TG1_CCIR656_F_END_1			(SOU_BASE+0x0082)	/* R/W,	   0,							*/
 #define SOU_TG1_RAW8_MASK			(SOU_BASE+0x0083)
 
+
+
+/*
+ * Structure Definition
+ */
+struct ipuctrl {
+	// sensor interface
+	unsigned short	width;
+	unsigned short	height;
+	unsigned short	x_ofs;
+	unsigned short	y_ofs;
+	
+	// memory interface
+	unsigned long	fb1;
+	unsigned long	fb2;
+	unsigned long	fb3;
+	unsigned long	jmp;
+	
+	// control
+	union {
+		unsigned char	a;
+		struct {
+			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlaced
+			unsigned char	rsv0	: 1;	// reserve
+			unsigned char	format	: 1;	// 0 = raw8/yuv,    1 = raw10
+			unsigned char	rsv1	: 1;	// reserve
+			unsigned char	online	: 1;	// 0 = off-line,    1 = on-line
+			unsigned char	rsv2	: 1;	// reserve
+			unsigned char	rsv3	: 1;	// reserve
+			unsigned char	rsv4	: 1;	// reserve
+		} b;
+	} cf1;
+	union {
+		unsigned char	a;
+		struct {
+			unsigned char	ext	: 4;
+			unsigned char	sync	: 2;	// 0 = , 1 = , 2 = , 3 =
+			unsigned char	sedge	: 1;	// 0 = rising-edge, 1 = falling-edge
+			unsigned char	hmode	: 1;	// 0 = H-SYNC,      1 = HREF
+		} b;
+	} cf2;
+};
+
+
+
+
+
 #endif /* __REGS_SOU_H__ */

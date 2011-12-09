@@ -14,6 +14,7 @@
 
 /* for main clock */
 #define CONFIG_FOSC			(48000000UL)
+//#define CONFIG_FOSC			(12000000UL)
 #define CONFIG_FSCLK			(CONFIG_FOSC)	/* where fsclk is the frequency of the state machine clock. */
 
 #define CONFIG_UART_USE_T0		0

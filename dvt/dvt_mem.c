@@ -51,11 +51,11 @@ int dvt_iram(void)
 	for (i=0; i<16; i++) {
 		if (mchktbl[i] != DBYTE[bp+i]) {
 			// fail
-			printf("<iram> Fail ...\n");
+			printf("<iram> >>> Fail <<<\n");
 			return -1;
 		}
 	}
-	printf("<iram> Pass ...\n");
+	printf("<iram> >>> Pass <<<\n");
 	// pass
 	return 0;
 }
@@ -81,12 +81,12 @@ int dvt_2ksram(void)
 	for (i=0; i<32; i++) {
 		if (mchktbl[i] != XBYTE[SARM2K_BP+i]) {
 			// fail
-			printf("<2ksram> Fail ...\n");
+			printf("<2ksram> >>> Fail <<<\n");
 			return -1;
 		}
 	}
 	// pass
-	printf("<2ksram> Pass ...\n");
+	printf("<2ksram> >>> Pass <<<\n");
 	return 0;
 }
 
@@ -144,7 +144,7 @@ exit:
 	__iow16(HADDRL, paddr);
 
 	// pass/fail
-	printf("<sdram> %s ...\n", (state == 0) ? "Pass" : "Fail");
+	printf("<sdram> >>> %s <<<\n", (state == 0) ? "Pass" : "Fail");
 	return state;
 }
 
