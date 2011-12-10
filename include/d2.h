@@ -66,10 +66,6 @@ extern void	ipu_set_cowork(unsigned char dsrc);
 extern void	ipu_startup(enum d2stream op);
 extern void	ipu_stop(void);
 
-/* sou */
-extern char	sou_set_ppl(enum d2tg ch, unsigned short total, unsigned short active, unsigned short dummy, unsigned short blink);
-extern char	sou_set_lpf(enum d2tg ch, unsigned short total, unsigned short active, unsigned short dummy, unsigned short blink);
-
 
 
 

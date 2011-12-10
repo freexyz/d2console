@@ -44,9 +44,9 @@ void siu_init(void)
 	__iow24(SIU_CH1_JMP0,	 siu[1].jmp);
 
 	// control
-	__iow8(SIU_CONF1,	 (siu[1].cf1.a << 1) | siu[0].cf1.a);
-	__iow8(SIU_CONF4,	 siu[0].cf2.a);
-	__iow8(SIU_CONF5,	 siu[1].cf2.a);
+	__iow8(SIU_CONF1,	 (siu[1].cf1.v << 1) | siu[0].cf1.v);
+	__iow8(SIU_CONF4,	 siu[0].cf2.v);
+	__iow8(SIU_CONF5,	 siu[1].cf2.v);
 }
 
 

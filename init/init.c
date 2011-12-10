@@ -7,8 +7,8 @@
  * History:
  *	2011.11.23	T.C. Chiu <tc.chiu@zealtek.com.tw>
  */
-
 #include <stddef.h>
+#include <stdio.h>
 #include <configs.h>
 #include <serial.h>
 
@@ -21,8 +21,6 @@
 
 #include <dvt.h>
 
-#define SIU_FIRST		1
-
 
 void d2_init(void)
 {
@@ -32,11 +30,9 @@ void d2_init(void)
 	__iow8(CLKSEL, 0x00);
 #endif
 
-#if (SIU_FIRST == 1)
-	/*
-	 * siu initial
-	 */
+	/* siu initial */
 	SIMPORT(0x13);
+	printf("SIU initial\n");
 
 	// initial ch0
 	siu[0].x_ofs  = 20;
@@ -84,43 +80,56 @@ void d2_init(void)
 	siu_startup();
 
 
-#endif
-
-	/*
-	 * sou initial
-	 */
+	/* sou initial */
 	SIMPORT(0x11);
-//	__iow8(SOU_TG0_TMODE,	   0x03);
-//	__iow8(SOU_ENCODER_0_MODE, 0x02);
-//	__iow16(SOU_TG0_WIDTH_0,   640*2);
-//	__iow16(SOU_TG0_WIDTH_0,   640);
-//	__iow16(SOU_TG0_HEIGHT_0,  480);
-//	__iow8(SOU_TG0_CFG,	   0x01);
+	printf("SOU initial\n");
 
-/*
-	normal_write(16'h41b, 8'h10);	// SOU_TG_0_Clks_PerH_0
-	normal_write(16'h41c, 8'h05);	// SOU_TG_0_Clks_PerH_1
-	normal_write(16'h423, 8'h0f);
-	normal_write(16'h424, 8'h05);
-	normal_write(16'h400, 8'h08);	// SOU_Clk_Inverse
-	normal_write(16'h41a, 8'h03);
-	normal_write(16'h410, 8'h02);
-	normal_write(16'h412, 8'h80);	// SOU_TG_0_Width_0
-	normal_write(16'h413, 8'h04);	// SOU_TG_0_Width_1
-	normal_write(16'h414, 8'he0);	// 00
-	normal_write(16'h415, 8'h01);	// 05
-	normal_write(16'h411, 8'h05); 
-*/
-	sou_set_ppl(TG0, 700, 640, 20, 20);
-	sou_set_lpf(TG0, 500, 480, 5, 5);
+	souc.polarity.b.hsync = 0;
+	souc.polarity.b.vsync = 0;
+	souc.polarity.b.href  = 0;
+	souc.polarity.b.pclk  = 1;
+	souc.blinkval         = 0x15851A8A;
+	souc_init();
 
-	__iow8(SOU_POLARITY,		0x08);		// SOU_Clk_Inverse
-	__iow8(SOU_TG0_TMODE,		0x03);
-	__iow8(SOU_ENCODER_0_MODE,	0x02);
+	// initial TG0
+	soui[0].ppl	= 700;
+	soui[0].lpf	= 500;
+	soui[0].owidth	= 640;
+	soui[0].oheight = 480;
+	soui[0].hblink	= 20;
+	soui[0].hdummy	= 20;
+	soui[0].vblink	= 10;
+	soui[0].vdummy	= 5;
 
-	__iow16(SOU_TG0_WIDTH_0,	640);	// SOU_TG_0_Width_0, SOU_TG_0_Width_1
-	__iow16(SOU_TG0_HEIGHT_0,	480);
-	__iow8(SOU_TG0_CFG,		0x05);
+	soui[0].tstmode = GREEN;
+	soui[0].mode    = 2;
+	soui[0].iwidth  = 640;
+	soui[0].iheight = 480;
+
+	soui[0].cfg.b.enable    = 1;
+	soui[0].cfg.b.interlace = 0;
+	soui[0].cfg.b.gateclk   = 1;
+
+	// initial TG1
+	soui[1].ppl	= 700;
+	soui[1].lpf	= 500;
+	soui[1].owidth	= 640;
+	soui[1].oheight	= 480;
+	soui[1].hblink	= 20;
+	soui[1].hdummy	= 20;
+	soui[1].vblink	= 10;
+	soui[1].vdummy	= 5;
+
+	soui[1].tstmode = RED;
+	soui[1].mode    = 2;
+	soui[1].iwidth  = 640;
+	soui[1].iheight = 480;
+
+	soui[1].cfg.b.enable    = 0;
+	soui[1].cfg.b.interlace = 0;
+	soui[1].cfg.b.gateclk   = 1;
+	soui_init();
+
 
 	/*
 	 * ipu initial
@@ -137,7 +146,6 @@ void d2_init(void)
 	ipu_set_crop(CH1, 640, 0, 30);
 
 	ipu_set_format(0x50);			// raw8
-
 //	ipu_set_cowork(0x30);			// co-work
 	ipu_set_cowork(0);			// no co-work
 //	ipu_set_opmode(0x02, 0x10, 0x80);	// 2: h side by side, 6: fussy
@@ -145,20 +153,6 @@ void d2_init(void)
 
 	ipu_startup(STANDALONE);
 
-
-
-#if (SIU_FIRST == 0)
-	/*
-	 * siu initial
-	 */
-	SIMPORT(0x13);
-
-
-
-	// initial ch0 & ch1 mode, RAW8, VSYNC high active, HSYNC high active
-	siu_set_mode(BOTH, 0x22);
-	siu_startup();
-#endif
 
 	SIMPORT(0x1F);
 }

@@ -97,9 +97,9 @@ struct siuctrl {
 	
 	// control
 	union {
-		unsigned char	a;
+		unsigned char	v;
 		struct {
-			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlaced
+			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlace
 			unsigned char	rsv0	: 1;	// reserve
 			unsigned char	format	: 1;	// 0 = raw8/yuv,    1 = raw10
 			unsigned char	rsv1	: 1;	// reserve
@@ -110,7 +110,7 @@ struct siuctrl {
 		} b;
 	} cf1;
 	union {
-		unsigned char	a;
+		unsigned char	v;
 		struct {
 			unsigned char	ext	: 4;
 			unsigned char	sync	: 2;	// 0 = , 1 = , 2 = , 3 =

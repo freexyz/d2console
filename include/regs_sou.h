@@ -133,50 +133,90 @@
 #define SOU_TG1_RAW8_MASK			(SOU_BASE+0x0083)
 
 
+enum sou_tmode {
+	WHITE = 0,
+	YELLOW,
+	CYAN,
+	GREEN,
+	MAGENTA,
+	RED,
+	BLUE,
+	BLACK,
+};
+
 
 /*
  * Structure Definition
  */
-struct ipuctrl {
-	// sensor interface
-	unsigned short	width;
-	unsigned short	height;
-	unsigned short	x_ofs;
-	unsigned short	y_ofs;
-	
-	// memory interface
-	unsigned long	fb1;
-	unsigned long	fb2;
-	unsigned long	fb3;
-	unsigned long	jmp;
+
+/*
+ *	-+         +---------------------------------------------------------+
+ *	 |         |           ////////////////////////////////////          |
+ *	 +---------+           ////////////////////////////////////          +--------
+ *	 |  blink  |  dummy   |            column/row             |          |
+ *	 +---------+----------+-----------------------------------+----------+
+ *	 |                              ppl/lpf                              |
+ */
+struct souinface {
+	// ipu interface
+	unsigned short	iwidth;
+	unsigned short	iheight;
+	unsigned short	x_panning;
+	unsigned short	y_panning;
+
+	// raw output interface
+	unsigned short	ppl;				// pixel per line
+	unsigned short	lpf;				// line per frame
+	unsigned short	owidth;				// active pixel per line
+	unsigned short	oheight;			// active line per frame
+	unsigned short	hblink;
+	unsigned short	hdummy;
+	unsigned short	vblink;
+	unsigned short	vdummy;
+
+	// CCIR656 output interface
+	unsigned short	ccir656_start;
+	unsigned short	ccir656_end;
 	
 	// control
+	enum sou_tmode	tstmode;
+	unsigned char	mode;
 	union {
-		unsigned char	a;
+		unsigned char	v;
 		struct {
-			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlaced
-			unsigned char	rsv0	: 1;	// reserve
-			unsigned char	format	: 1;	// 0 = raw8/yuv,    1 = raw10
-			unsigned char	rsv1	: 1;	// reserve
-			unsigned char	online	: 1;	// 0 = off-line,    1 = on-line
-			unsigned char	rsv2	: 1;	// reserve
-			unsigned char	rsv3	: 1;	// reserve
-			unsigned char	rsv4	: 1;	// reserve
+			unsigned char	enable		: 1;	// 0 = disable, 1 = enable
+			unsigned char	interlace	: 1;	// 0 = progressive, 1 = interlace
+			unsigned char	gateclk		: 1;	// 1 = enable gate clock
+			unsigned char	rsv1		: 5;	// reserve
 		} b;
-	} cf1;
-	union {
-		unsigned char	a;
-		struct {
-			unsigned char	ext	: 4;
-			unsigned char	sync	: 2;	// 0 = , 1 = , 2 = , 3 =
-			unsigned char	sedge	: 1;	// 0 = rising-edge, 1 = falling-edge
-			unsigned char	hmode	: 1;	// 0 = H-SYNC,      1 = HREF
-		} b;
-	} cf2;
+	} cfg;
+
 };
 
 
+struct souctrl {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	hsync	: 1;	// 0 = active low, 1 = active high
+	 		unsigned char	vsync	: 1;	// 0 = active low, 1 = active high
+			unsigned char	href	: 1;	// 0 = active low, 1 = active high
+			unsigned char	pclk	: 1;	// 1 = inverse the SOU_Clk
+			unsigned char	rsv1	: 4;
+		} b;
+	} polarity;
 
+	// raw output interface
+	unsigned long	blinkval;			// raw mode: B Gb Gr R, YCbCr mode: x Cr Cb Y
+
+};
+
+
+extern struct souinface		soui[2];
+extern struct souctrl		souc;
+
+extern void		soui_init(void);
+extern void		souc_init(void);
 
 
 #endif /* __REGS_SOU_H__ */

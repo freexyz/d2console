@@ -119,15 +119,33 @@ void ipu_set_opmode(unsigned char op, unsigned char factor, unsigned short overl
 
 void ipu_set_cowork(unsigned char dsrc)
 {
-	__iow8(IPU_CONF2, (dsrc & 0xFA));
+	unsigned char	tmp;
+
+	tmp = __ior8(IPU_CONF2) & 0x0F;
+#if 1
+	tmp = ((tmp << 3) & 0x08) |
+	      ((tmp << 2) & 0x04) |
+	      ((tmp >> 2) & 0x02) |
+	      ((tmp >> 3) & 0x01);
+#endif
+	__iow8(IPU_CONF2, (tmp | (dsrc & 0x30)));
 }
 
 
 void ipu_startup(enum d2stream op)
 {
+	unsigned char	tmp;
+
 	// update register
-	__iow8(IPU_CONF2, (__ior8(IPU_CONF2) | 0x05));
-	__iow8(IPU_CONF2, (__ior8(IPU_CONF2) & 0xFA));
+	tmp = __ior8(IPU_CONF2) & 0x0F;
+#if 1
+	tmp = ((tmp << 3) & 0x08) |
+	      ((tmp << 2) & 0x04) |
+	      ((tmp >> 2) & 0x02) |
+	      ((tmp >> 3) & 0x01);
+#endif
+	__iow8(IPU_CONF2, (tmp | 0x05));
+	__iow8(IPU_CONF2, (tmp & 0xFA));
 
 	// enable
 	if (op == STANDALONE) {
