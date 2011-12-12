@@ -60,24 +60,26 @@ void d2_init(void)
 	siu[1].jmp    = 640*2;
 
 	// initial ch0 mode, RAW8, VSYNC high active, HSYNC high active
-	siu[0].cf1.b.scan   = 1;
-	siu[0].cf1.b.format = 0;
-	siu[0].cf1.b.online = 0;
+	siu[0].cf1.b.scan    = 1;
+	siu[0].cf1.b.format  = 0;
+	siu[0].cf1.b.online  = 0;
+	siu[0].cf1.b.raw8lsb = 1;
 
-	siu[0].cf2.b.ext    = 0;
-	siu[0].cf2.b.sync   = 0;
-	siu[0].cf2.b.sedge  = 0;
-	siu[0].cf2.b.hmode  = 0;
+	siu[0].cf2.b.ext     = 0;
+	siu[0].cf2.b.sync    = 0;
+	siu[0].cf2.b.sedge   = 0;
+	siu[0].cf2.b.hmode   = 0;
 
 	// initial ch1 mode, RAW8, VSYNC high active, HSYNC high active
-	siu[1].cf1.b.scan   = 1;
-	siu[1].cf1.b.format = 0;
-	siu[1].cf1.b.online = 0;
+	siu[1].cf1.b.scan    = 1;
+	siu[1].cf1.b.format  = 0;
+	siu[1].cf1.b.online  = 0;
+	siu[1].cf1.b.raw8lsb = 0;
 
-	siu[1].cf2.b.ext    = 0;
-	siu[1].cf2.b.sync   = 0;
-	siu[1].cf2.b.sedge  = 0;
-	siu[1].cf2.b.hmode  = 0;
+	siu[1].cf2.b.ext     = 0;
+	siu[1].cf2.b.sync    = 0;
+	siu[1].cf2.b.sedge   = 0;
+	siu[1].cf2.b.hmode   = 0;
 
 
 	// write to hardware register

@@ -88,13 +88,13 @@ struct siuctrl {
 	unsigned short	y_ofs;
 	unsigned short	width;
 	unsigned short	height;
-	
+
 	// memory interface
 	unsigned long	fb1;
 	unsigned long	fb2;
 	unsigned long	fb3;
 	unsigned long	jmp;
-	
+
 	// control
 	union {
 		unsigned char	v;
@@ -105,8 +105,8 @@ struct siuctrl {
 			unsigned char	rsv1	: 1;	// reserve
 			unsigned char	online	: 1;	// 0 = off-line,    1 = on-line
 			unsigned char	rsv2	: 1;	// reserve
+			unsigned char	raw8lsb : 1;	// raw8_lsb
 			unsigned char	rsv3	: 1;	// reserve
-			unsigned char	rsv4	: 1;	// reserve
 		} b;
 	} cf1;
 	union {
