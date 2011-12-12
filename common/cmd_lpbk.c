@@ -18,6 +18,8 @@
 #include <configs.h>
 #include <command.h>
 
+#include <dvt.h>
+
 
 static __code const char	*lpbk_help = {
 	"\n"									\
@@ -34,22 +36,19 @@ static __code const char	*lpbk_help = {
 
 void cmd_loopback(int argc, const char *argv[])
 {
-	unsigned long	addr;
-	unsigned long	num;
-	unsigned short	c;
+	argc = argc;
+	argv = argv;
 
-//	if (argc != 4) {
-//		printf("invalid 'msetw' command: too few(many) arguments\n");
-//		return;
-//	}
+
+	if (argc != 1) {
+		printf("invalid 'loopback' command: too few(many) arguments\n");
+		return;
+	}
 
 	printf("%s", lpbk_help);
 
+	dvt_lpbk_startup();
 
-
-	addr = strtoul(argv[1], NULL, 16);
-	c    = (unsigned short) strtoul(argv[2], NULL, 16);
-	num  = strtoul(argv[3], NULL, 16);
 }
 
 command_t	cmd_loopback_t = {

@@ -29,6 +29,10 @@ struct regs_object {
 extern int		dvt_iram(void);
 extern int		dvt_2ksram(void);
 extern int		dvt_sdram(void);
+extern int		dvt_lpbk_startup(void);
+
+
+
 
 
 #endif /* __DVT_H__ */

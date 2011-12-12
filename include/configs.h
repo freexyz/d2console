@@ -37,7 +37,7 @@
 #define CONFIG_LINEAR_DRAM		1
 
 /* for function */
-#define CONFIG_SERIAL			1		/* serial port */
+#define CONFIG_SERIAL			0		/* serial port */
 #define CONFIG_TERMINAL			1		/* terminal */
 #define CONFIG_MEM			1		/* memory dump */
 #define CONFIG_XMODEM			1		/* xmodem function */

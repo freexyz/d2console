@@ -155,10 +155,12 @@
 /*
  * Structure Definition
  */
-struct ipuctrl {
+struct ipuinface {
 	// sensor interface
 	unsigned short	width;
 	unsigned short	height;
+	unsigned long	jmp;
+
 	unsigned short	crop;
 	unsigned char	lstart;
 	unsigned char	lend;
@@ -167,37 +169,96 @@ struct ipuctrl {
 	unsigned long	fb1;
 	unsigned long	fb2;
 	unsigned long	fb3;
-	unsigned long	jmp;
-
-	// control
-	unsigned short	overlap;
-
-	union {
-		unsigned char	a;
-		struct {
-			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlaced
-			unsigned char	rsv0	: 1;	// reserve
-			unsigned char	format	: 1;	// 0 = raw8/yuv,    1 = raw10
-			unsigned char	rsv1	: 1;	// reserve
-			unsigned char	online	: 1;	// 0 = off-line,    1 = on-line
-			unsigned char	rsv2	: 1;	// reserve
-			unsigned char	rsv3	: 1;	// reserve
-			unsigned char	rsv4	: 1;	// reserve
-		} b;
-	} cf1;
-	union {
-		unsigned char	a;
-		struct {
-			unsigned char	ext	: 4;
-			unsigned char	sync	: 2;	// 0 = , 1 = , 2 = , 3 =
-			unsigned char	sedge	: 1;	// 0 = rising-edge, 1 = falling-edge
-			unsigned char	hmode	: 1;	// 0 = H-SYNC,      1 = HREF
-		} b;
-	} cf2;
 };
 
 
+struct ipuctrl {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	stdalone0	: 1;	// 0 = disable, 1 = enable
+			unsigned char	stdalone1	: 1;	// 0 = disable, 1 = enable
+			unsigned char	online0		: 1;	// 0 = disable, 1 = enable
+			unsigned char	online1		: 1;	// 0 = disable, 1 = enable
+			unsigned char	rsv1		: 4;	// reserve
+		} b;
+	} ctrl;
 
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	order0		: 2;	// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+			unsigned char	order1		: 2;	// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+			unsigned char	format0		: 2;	// 0 = raw10, 1 = raw8, 2 = yuv
+			unsigned char	format1		: 2;	// 0 = raw10, 1 = raw8, 2 = yuv
+		} b;
+	} cf1;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	w_update1	: 1;	// 1 = update
+			unsigned char	in_sel1		: 1;	// 0 = SIU1, 1 = SIU0
+			unsigned char	w_update0	: 1;	// 1 = update
+			unsigned char	in_sel0		: 1;	// 0 = SIU0, 1 = SIU1
+			unsigned char	cowrok0		: 1;	// 1 = co-work mode
+			unsigned char	cowork1		: 1;	// 1 = co-work mode
+			unsigned char	rsv1		: 2;	// reserve
+		} b;
+	} cf2;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	slv_slv		: 1;
+			unsigned char	opmode		: 3;	// 0 = channel indepent
+								// 1 = horizontal side by side
+								// 2 = vertical side by side
+								// 3 = fussy stitch
+								// 4 = red cyan stitch
+			unsigned char	online		: 1;	// Same as online en
+			unsigned char	out_sel		: 1;	// 0 = channel 0 map to sou0 input
+								//     channel 1 map to sou1 input
+								// 1 = channel 0 map to sou1 input
+								//     channel 1 map to sou0 input
+			unsigned char	half_side	: 1;	// 1 = output scalar down
+			unsigned char	rsv1		: 1;	// reserve
+		} b;
+	} cf3;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	r_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	gr_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	gb_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	b_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	hdr		: 1;	// 00:00:00
+			unsigned char	clamp_sel	: 3;	// bit0: 0:clamp range within 0~255, 1:clamp range  within -127~128 for default Y
+								// bit1: 0:clamp range within 0~255, 1:clamp range  within -127~128 for default CB
+								// bit2: 0:clamp range within 0~255, 1:clamp range  within -127~128 for default CR
+		} b;
+	} cf4;
+
+	union {
+		unsigned short	v;
+		struct {
+			unsigned short	fussy_factor	: 11;	// fussy_s = round(1024 / overlap)
+			unsigned short	fussy_hold	: 2;	// weight incr and decr slope
+			unsigned short	rsv1		: 3;	// reserve
+		} b;
+	} cf56;
+
+	unsigned short	overlap;
+};
+
+
+extern struct ipuinface		ipui[2];
+extern struct ipuctrl		ipuc;
+
+extern void		ipui_init(void);
+extern void		ipuc_startup(void);
+extern void		ipuc_stop(void);
 
 
 

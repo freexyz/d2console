@@ -55,6 +55,10 @@
 #define __iow32(a, d)		{ __iow16(a, LOWORD(d)); __iow16(a+2, HIWORD(d)); }
 #define __ior32(a)		((((unsigned long) __ior16(a+2)) << 16) | ((unsigned long) __ior16(a)))
 
+/* big to little endian */
+#define __le16(a)		((((unsigned short) a) << 8) | (((unsigned short) a) >> 8))
+#define __le32(a)		((((unsigned long) __le16(LOWORD(a))) << 16) | ((unsigned long) __le16(HIWORD(a))))
+
 
 #if defined(__CONSOLE_MODE__)
 # define msg		printf

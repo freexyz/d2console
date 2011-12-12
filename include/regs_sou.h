@@ -148,38 +148,7 @@ enum sou_tmode {
 /*
  * Structure Definition
  */
-
-/*
- *	-+         +---------------------------------------------------------+
- *	 |         |           ////////////////////////////////////          |
- *	 +---------+           ////////////////////////////////////          +--------
- *	 |  blink  |  dummy   |            column/row             |          |
- *	 +---------+----------+-----------------------------------+----------+
- *	 |                              ppl/lpf                              |
- */
 struct souinface {
-	// ipu interface
-	unsigned short	iwidth;
-	unsigned short	iheight;
-	unsigned short	x_panning;
-	unsigned short	y_panning;
-
-	// raw output interface
-	unsigned short	ppl;				// pixel per line
-	unsigned short	lpf;				// line per frame
-	unsigned short	owidth;				// active pixel per line
-	unsigned short	oheight;			// active line per frame
-	unsigned short	hblink;
-	unsigned short	hdummy;
-	unsigned short	vblink;
-	unsigned short	vdummy;
-
-	// CCIR656 output interface
-	unsigned short	ccir656_start;
-	unsigned short	ccir656_end;
-	
-	// control
-	enum sou_tmode	tstmode;
 	unsigned char	mode;
 	union {
 		unsigned char	v;
@@ -187,10 +156,37 @@ struct souinface {
 			unsigned char	enable		: 1;	// 0 = disable, 1 = enable
 			unsigned char	interlace	: 1;	// 0 = progressive, 1 = interlace
 			unsigned char	gateclk		: 1;	// 1 = enable gate clock
-			unsigned char	rsv1		: 5;	// reserve
+			unsigned char	rsv		: 5;	// reserve
 		} b;
 	} cfg;
 
+	// ipu interface
+	unsigned short	width;					// active pixel per line
+	unsigned short	height;					// active line per frame
+	unsigned short	x_panning;
+	unsigned short	y_panning;
+	unsigned char	tstmode;
+	unsigned short	ppl;					// pixel per line
+	unsigned short	hsync_start;
+	unsigned short	hsync_end;
+	unsigned short	hactive_start;
+	unsigned short	hactive_end;
+	unsigned short	lpf;					// line per frame
+	unsigned short	vsync_start_line;
+	unsigned short	vsync_start_clk;
+	unsigned short	vsync_end_line;
+	unsigned short	vsync_end_clk;
+	unsigned short	vactive_start;
+	unsigned short	vactive_end;
+	unsigned short	even_vsync_start_line;
+	unsigned short	even_vsync_start_clk;
+	unsigned short	even_vsync_end_line;
+	unsigned short	even_vsync_end_clk;
+	unsigned short	even_vactive_start;
+	unsigned short	even_vactive_end;
+	unsigned short	ccir656_f_start;
+	unsigned short	ccir656_f_end;
+	unsigned char	raw8_mask;
 };
 
 
@@ -206,17 +202,24 @@ struct souctrl {
 		} b;
 	} polarity;
 
-	// raw output interface
+	unsigned char	multich;
+	unsigned char	int_state; 
+	unsigned char	int_clr;
+	unsigned char	int_mask;
 	unsigned long	blinkval;			// raw mode: B Gb Gr R, YCbCr mode: x Cr Cb Y
-
 };
 
 
-extern struct souinface		soui[2];
-extern struct souctrl		souc;
+extern struct souinface volatile __xdata	*sou0;
+extern struct souinface volatile __xdata	*sou1;
+extern struct souctrl   volatile __xdata	*souc;
+
+//extern struct souinface		soui[2];
+//extern struct souctrl		souc;
 
 extern void		soui_init(void);
 extern void		souc_init(void);
+extern void		soui_stop(void);
 
 
 #endif /* __REGS_SOU_H__ */

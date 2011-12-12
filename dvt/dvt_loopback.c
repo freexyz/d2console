@@ -14,6 +14,8 @@
  */
 
 #include <stddef.h>
+#include <stdio.h>
+
 #include <configs.h>
 #include <serial.h>
 
@@ -21,119 +23,207 @@
 #include <regs_sou.h>
 #include <regs_ipu.h>
 #include <regs_sys.h>
-#include <regs_pio.h>
-#include <regs_align.h>
 
 #include <dvt.h>
 
-#define SIU_FIRST		1
 
 
-void d2_init(void)
+int dvt_lpbk_startup(void)
 {
+	SIMPORT(0xF0);
+
+#if (CONFIG_FOSC < 48000000UL)
+	__iow8(CLKSEL, 0x04);
+#else
 	__iow8(CLKSEL, 0x00);
-
-#if (SIU_FIRST == 1)
-	/*
-	 * siu initial
-	 */
-	SIMPORT(0x13);
-	// initial ch0
-	siu_set_fb(CH0, 0x00200000, 0x00400000, 0x00600000);
-	siu_set_szjmp(CH0, 640, 480, 640);
-	siu_set_xyoffset(CH0, 20, 5);
-
-	// initial ch1
-	siu_set_fb(CH1, 0x00800000, 0x00a00000, 0x00c00000);
-	siu_set_szjmp(CH1, 640, 480, 640);
-	siu_set_xyoffset(CH1, 20, 5);
-
-	// initial ch0 & ch1 mode, RAW8, VSYNC high active, HSYNC high active
-	siu_set_mode(BOTH, 0x22);
-	siu_startup();
 #endif
 
-	/*
-	 * sou initial
-	 */
-	SIMPORT(0x11);
-//	__iow8(SOU_TG0_TMODE,	   0x03);
-//	__iow8(SOU_ENCODER_0_MODE, 0x02);
-//	__iow16(SOU_TG0_WIDTH_0,   640*2);
-//	__iow16(SOU_TG0_WIDTH_0,   640);
-//	__iow16(SOU_TG0_HEIGHT_0,  480);
-//	__iow8(SOU_TG0_CFG,	   0x01);
+	/*********************************************************************
+	 * siu initial
+	 ********************************************************************/
+	SIMPORT(0xF1);
+	printf("SIU initial\n");
 
-/*
-	normal_write(16'h41b, 8'h10);	// SOU_TG_0_Clks_PerH_0
-	normal_write(16'h41c, 8'h05);	// SOU_TG_0_Clks_PerH_1
-	normal_write(16'h423, 8'h0f);
-	normal_write(16'h424, 8'h05);
-	normal_write(16'h400, 8'h08);	// SOU_Clk_Inverse
-	normal_write(16'h41a, 8'h03);
-	normal_write(16'h410, 8'h02);
-	normal_write(16'h412, 8'h80);	// SOU_TG_0_Width_0
-	normal_write(16'h413, 8'h04);	// SOU_TG_0_Width_1
-	normal_write(16'h414, 8'he0);	// 00
-	normal_write(16'h415, 8'h01);	// 05
-	normal_write(16'h411, 8'h05); 
-*/
-	sou_set_ppl(TG0, 700, 640, 20, 20);
-	sou_set_lpf(TG0, 500, 480, 5, 5);
-
-	__iow8(SOU_POLARITY,		0x08);		// SOU_Clk_Inverse
-	__iow8(SOU_TG0_TMODE,		0x03);
-	__iow8(SOU_ENCODER_0_MODE,	0x02);
-
-	__iow16(SOU_TG0_WIDTH_0,	640);	// SOU_TG_0_Width_0, SOU_TG_0_Width_1
-	__iow16(SOU_TG0_HEIGHT_0,	480);
-	__iow8(SOU_TG0_CFG,		0x05);
-
-	/*
-	 * ipu initial
-	 */
-	SIMPORT(0x12);
 	// initial ch0
-	ipu_set_fb(CH0, 0x00000000, 0x00000000, 0x00000000);
-	ipu_set_xyjmp(CH0, 640, 480, 640);
-	ipu_set_crop(CH0, 640, 0, 30);
+	siu[0].x_ofs  = 20;
+	siu[0].y_ofs  = 5;
+	siu[0].width  = 640;
+	siu[0].height = 480;
+	siu[0].fb1    = 0x00200000;
+	siu[0].fb2    = 0x00400000;
+	siu[0].fb3    = 0x00600000;
+	siu[0].jmp    = 640;
+
+	// initial ch1
+	siu[1].x_ofs  = 20;
+	siu[1].y_ofs  = 5;
+	siu[1].width  = 640;
+	siu[1].height = 480;
+	siu[1].fb1    = 0x00800000;
+	siu[1].fb2    = 0x00a00000;
+	siu[1].fb3    = 0x00c00000;
+	siu[1].jmp    = 640;
+
+	// initial ch0 mode, RAW8, VSYNC high active, HSYNC high active
+	siu[0].cf1.b.scan   = 0;
+	siu[0].cf1.b.format = 0;
+	siu[0].cf1.b.online = 0;
+
+	siu[0].cf2.b.ext    = 2;
+	siu[0].cf2.b.sync   = 2;
+	siu[0].cf2.b.sedge  = 0;
+	siu[0].cf2.b.hmode  = 0;
+
+	// initial ch1 mode, RAW8, VSYNC high active, HSYNC high active
+	siu[1].cf1.b.scan   = 0;
+	siu[1].cf1.b.format = 0;
+	siu[1].cf1.b.online = 0;
+
+	siu[1].cf2.b.ext    = 2;
+	siu[1].cf2.b.sync   = 2;
+	siu[1].cf2.b.sedge  = 0;
+	siu[1].cf2.b.hmode  = 0;
+
+
+	// write to hardware register
+	siu_init();
+	siu_startup();
+
+
+	/*********************************************************************
+	 * sou initial
+	 ********************************************************************/
+	SIMPORT(0xF2);
+	printf("SOU initial\n");
+
+	souc->polarity.b.hsync	= 0;
+	souc->polarity.b.vsync	= 0;
+	souc->polarity.b.href	= 0;
+	souc->polarity.b.pclk	= 1;
+	souc->blinkval		= __le32(0x15851A8A);	// B Gb Gr R
+
+	// initial TG0
+	sou0->width		= __le16(640);
+	sou0->height		= __le16(480);
+
+	sou0->ppl		= __le16(700);
+	sou0->hsync_start	= __le16(1);
+	sou0->hsync_end		= __le16(20);
+	sou0->hactive_start	= __le16(40);
+	sou0->hactive_end	= __le16(640+40-1);
+
+	sou0->lpf		= __le16(500);
+	sou0->vsync_start_line	= __le16(1);
+	sou0->vsync_start_clk	= __le16(1);
+	sou0->vsync_end_line	= __le16(5);
+	sou0->vsync_end_clk	= __le16(1);
+	sou0->vactive_start	= __le16(10);
+	sou0->vactive_end	= __le16(480+10-1);
+
+	sou0->tstmode		= GREEN;
+	sou0->mode		= 2;
+
+	sou0->cfg.b.interlace	= 0;
+	sou0->cfg.b.gateclk	= 1;
+	sou0->cfg.b.enable	= 1;
+
+	// initial TG1
+	sou1->width		= __le16(640);
+	sou1->height		= __le16(480);
+
+	sou1->ppl		= __le16(700);
+	sou1->hsync_start	= __le16(1);
+	sou1->hsync_end		= __le16(20);
+	sou1->hactive_start	= __le16(40);
+	sou1->hactive_end	= __le16(640+40-1);
+
+	sou1->lpf		= __le16(500);
+	sou1->vsync_start_line	= __le16(1);
+	sou1->vsync_start_clk	= __le16(1);
+	sou1->vsync_end_line	= __le16(5);
+	sou1->vsync_end_clk	= __le16(1);
+	sou1->vactive_start	= __le16(10);
+	sou1->vactive_end	= __le16(480+10-1);
+
+	sou1->tstmode		= RED;
+	sou1->mode		= 2;
+
+	sou1->cfg.b.interlace	= 0;
+	sou1->cfg.b.gateclk	= 1;
+	sou1->cfg.b.enable	= 0;
+
+
+	/*********************************************************************
+	 * ipu initial
+	 ********************************************************************/
+	SIMPORT(0xF3);
+	printf("IPU initial\n");
+
+	// initial ch0
+	ipui[0].width	= 640;
+	ipui[0].height	= 480;
+	ipui[0].jmp	= 640;
+
+	ipui[0].crop	= 640;
+	ipui[0].lstart	= 0;
+	ipui[0].lend	= 30;
+
+	ipui[0].fb1	= 0x00000000;
+	ipui[0].fb2	= 0x00000000;
+	ipui[0].fb3	= 0x00000000;
 
 	//initial ch1
-	ipu_set_fb(CH1, 0x00100000, 0x00100000, 0x00100000);
-	ipu_set_xyjmp(CH1, 640, 480, 640);
-	ipu_set_crop(CH1, 640, 0, 30);
+	ipui[1].width	= 640;
+	ipui[1].height	= 480;
+	ipui[1].jmp	= 640;
 
-	ipu_set_format(0x50);			// raw8
+	ipui[1].crop	= 640;
+	ipui[1].lstart	= 0;
+	ipui[1].lend	= 30;
 
-//	ipu_set_cowork(0x30);			// co-work
-	ipu_set_cowork(0);			// no co-work
-//	ipu_set_opmode(0x02, 0x10, 0x80);	// 2: h side by side, 6: fussy
-	ipu_set_opmode(0x00, 0x10, 0x80);	// channel indepent
+	ipui[1].fb1	= 0x00100000;
+	ipui[1].fb2	= 0x00100000;
+	ipui[1].fb3	= 0x00100000;
+	ipui_init();
 
-	ipu_startup(STANDALONE);
+	ipuc.cf4.b.r_pos	= 0;
+	ipuc.cf4.b.gr_pos	= 0;
+	ipuc.cf4.b.gb_pos	= 0;
+	ipuc.cf4.b.b_pos	= 0;
+	ipuc.cf4.b.hdr		= 0;
+	ipuc.cf4.b.clamp_sel	= 0;
 
+	ipuc.cf56.b.fussy_factor = 16;
+	ipuc.cf56.b.fussy_hold	 = 0;
+	ipuc.overlap		 = 128;
 
+	ipuc.cf1.b.order0	= 0;		// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+	ipuc.cf1.b.order1	= 0;		// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+	ipuc.cf1.b.format0	= 1;		// 0 = raw10, 1 = raw8, 2 = yuv
+	ipuc.cf1.b.format1	= 1;		// 0 = raw10, 1 = raw8, 2 = yuv
 
-#if (SIU_FIRST == 0)
-	/*
-	 * siu initial
-	 */
-	SIMPORT(0x13);
-	// initial ch0
-	siu_set_fb(CH0, 0x00200000, 0x00400000, 0x00600000);
-	siu_set_szjmp(CH0, 640, 480, 640);
-	siu_set_xyoffset(CH0, 20, 5);
+	ipuc.cf3.b.slv_slv	= 0;
+	ipuc.cf3.b.opmode	= 0;		// 0 = channel indepent
+						// 1 = horizontal side by side
+						// 2 = vertical side by side
+						// 3 = fussy stitch
+						// 4 = red cyan stitch
+	ipuc.cf3.b.online	= 0;
+	ipuc.cf3.b.out_sel	= 0;
+	ipuc.cf3.b.half_side	= 0;
 
-	// initial ch1
-	siu_set_fb(CH1, 0x00800000, 0x00a00000, 0x00c00000);
-	siu_set_szjmp(CH1, 640, 480, 640);
-	siu_set_xyoffset(CH1, 20, 5);
+	ipuc.cf2.b.in_sel1	= 0;		// 0 = SIU1, 1 = SIU0
+	ipuc.cf2.b.in_sel0	= 0;		// 0 = SIU0, 1 = SIU1
+	ipuc.cf2.b.cowrok0	= 0;		// 1 = co-work mode
+	ipuc.cf2.b.cowork1	= 0;		// 1 = co-work mode
 
-	// initial ch0 & ch1 mode, RAW8, VSYNC high active, HSYNC high active
-	siu_set_mode(BOTH, 0x22);
-	siu_startup();
-#endif
+	ipuc.ctrl.b.stdalone0	= 1;
+	ipuc.ctrl.b.stdalone1	= 1;
+	ipuc.ctrl.b.online0	= 0;
+	ipuc.ctrl.b.online1	= 0;
+	ipuc_startup();
 
-	SIMPORT(0x1F);
+	SIMPORT(0xFF);
+	return 0;
 }
 

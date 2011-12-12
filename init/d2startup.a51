@@ -35,7 +35,8 @@ XDATASTART      EQU     7000H
 ;
 ; <o> XDATALEN: XDATA memory size <0x0-0xFFFF>
 ;     <i> The length of XDATA memory in bytes.
-XDATALEN        EQU     800H
+;XDATALEN        EQU     800H
+XDATALEN        EQU     0H
 ;
 ; <o> PDATASTART: PDATA memory start address <0x0-0xFFFF>
 ;     <i> The absolute start address of PDATA memory
