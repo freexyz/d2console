@@ -21,19 +21,6 @@
 #include <dvt.h>
 
 
-static __code const char	*lpbk_help = {
-	"\n"									\
-	"IPU->SOU->SIU loopback mode test\n"					\
-	"   [IPU] frame buffer:\n"						\
-	"      <CH0>: fb1 = 0x00000000, fb2 = 0x00000000, fb3 = 0x00000000\n"	\
-	"      <CH1>: fb1 = 0x00100000, fb2 = 0x00100000, fb3 = 0x00100000\n"	\
-	"\n"									\
-	"   [SIU] frame buffer:\n"						\
-	"      <CH0>: fb1 = 0x00200000, fb2 = 0x00400000, fb3 = 0x00600000\n"	\
-	"      <CH1>: fb1 = 0x00800000, fb2 = 0x00a00000, fb3 = 0x00c00000\n"	\
-};
-
-
 void cmd_loopback(int argc, const char *argv[])
 {
 	argc = argc;
@@ -45,9 +32,7 @@ void cmd_loopback(int argc, const char *argv[])
 		return;
 	}
 
-	printf("%s", lpbk_help);
-
-	dvt_lpbk_startup();
+	dvt_lpbk_raw8();
 
 }
 

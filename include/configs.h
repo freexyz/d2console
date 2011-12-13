@@ -1,16 +1,25 @@
 /*
  * include/configs.h --
  *
- * Copyright 2010-2011 ZealTek CO., LTD.
+ * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
+ *		T.C. Chiu <tc.chiu@zealtek.com.tw>
  *
+ *
+ * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
  *
  * History:
- *	2011.11.14	T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *	2011.11.14	T.C. Chiu	create file
  */
 
 #if !defined(__CONFIGS_H__)
 #define __CONFIGS_H__
 
+/* for VLSI simulation */
+#define CONFIG_VLSI_SIMULATION		1
+
+/* for firmware debug */
+#define CONFIG_DEBUG			0
 
 /* for main clock */
 #define CONFIG_FOSC			(48000000UL)
@@ -36,8 +45,13 @@
 
 #define CONFIG_LINEAR_DRAM		1
 
+
 /* for function */
-#define CONFIG_SERIAL			1		/* serial port */
+#if (CONFIG_VLSI_SIMULATION)
+# define CONFIG_SERIAL			0		/* serial port */
+#else
+# define CONFIG_SERIAL			1		/* serial port */
+#endif
 #define CONFIG_TERMINAL			1		/* terminal */
 #define CONFIG_MEM			1		/* memory dump */
 #define CONFIG_XMODEM			1		/* xmodem function */
@@ -53,16 +67,12 @@
 #undef DEBUG_GETCMD
 #undef DEBUG_EXECFUNC
 
-#define SIMULATION			1
-
-//#define DEBUG_PORT			RAM_PORT_ADDR
-#define DEBUG_PORT			(0x0f40)
-
-#if (SIMULATION)
-#include <regs_align.h>
-#define SIMPORT(a)			__iow8(DEBUG_PORT, (a))
+/* for VLSI simulation */
+#if (CONFIG_VLSI_SIMULATION) || (CONFIG_DEBUG)
+# define DEBUG_PORT			(0x0f40)
+# define SIMPORT(a)			__iow8(DEBUG_PORT, (a))
 #else
-#define SIMPORT(a)
+# define SIMPORT(a)
 #endif
 
 

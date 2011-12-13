@@ -77,12 +77,12 @@
 #define SIU_CH1_HEIGHT0			(SIU_BASE+0x0041)	/* R/W, 0, Channel 1 image height 7~0		*/
 #define SIU_CH1_HEIGHT1			(SIU_BASE+0x0042)	/* R/W, 0, Channel 1 image height 12~8		*/
 #define SIU_CONF5			(SIU_BASE+0x0043)	/* R/W, 0, Config register			*/
-
+#define SIU_CONF6			(SIU_BASE+0x0044)	/* R/W, 0, Config register			*/
 
 /*
  * Structure Definition
  */
-struct siuctrl {
+struct siuinface {
 	// sensor interface
 	unsigned short	x_ofs;
 	unsigned short	y_ofs;
@@ -120,7 +120,26 @@ struct siuctrl {
 	} cf2;
 };
 
-extern struct siuctrl		siu[2];
+
+struct siuctrl {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	progressive0	: 1;	// 1 = progressive, 0 = interlace
+			unsigned char	progressive1	: 1;
+			unsigned char	single0		: 1;	// 1 = single capture
+			unsigned char	single1		: 1;
+			unsigned char	parser_en	: 1;	// 1 = enable
+			unsigned char	parser_chsel	: 1;	// 1 = channel 1, 0 = channel 0
+			unsigned char	parser_rst	: 1;	// 0 = reset
+		} b;
+	} cf6;
+};
+
+
+extern struct siuinface		siu[2];
+extern struct siuctrl		siuc;
+
 
 /* */
 extern void	siu_init(void);

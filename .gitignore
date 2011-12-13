@@ -41,11 +41,8 @@ modules.builtin
 /d2.vspe
 /d2console.plg
 /d2console.prj
-/d2console.uvgui.user
 /d2console.uvgui_user.bak
-/d2console.uvopt
 /d2console_uvopt.bak
-/d2console.uvproj
 /d2console_uvproj.bak
 
 #

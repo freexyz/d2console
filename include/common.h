@@ -59,13 +59,13 @@
 #define __le16(a)		((((unsigned short) a) << 8) | (((unsigned short) a) >> 8))
 #define __le32(a)		((((unsigned long) __le16(LOWORD(a))) << 16) | ((unsigned long) __le16(HIWORD(a))))
 
-
+/*
 #if defined(__CONSOLE_MODE__)
-# define msg		printf
+# define MSG		printf
 #else
-# define msg		//
+# define MSG		//
 #endif
-
+*/
 
 
 #if !defined(TRUE)

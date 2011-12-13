@@ -16,7 +16,8 @@
 #include <regs_siu.h>
 
 
-struct siuctrl		siu[2];
+struct siuinface	siu[2];
+struct siuctrl		siuc;
 
 
 void siu_init(void)
@@ -47,12 +48,14 @@ void siu_init(void)
 	__iow8(SIU_CONF1,	 (siu[1].cf1.v << 1) | siu[0].cf1.v);
 	__iow8(SIU_CONF4,	 siu[0].cf2.v);
 	__iow8(SIU_CONF5,	 siu[1].cf2.v);
+
+	__iow8(SIU_CONF6,	 siuc.cf6.v);
 }
 
 
 void siu_startup(void)
 {
-	__iow8(SIU_CONF1,	0xc0);
+//	__iow8(SIU_CONF1,	0xc0);
 
 	// ch0 & ch1 sensor controller reset assert
 	__iow8(SIU_CONF3,	0x0c);
