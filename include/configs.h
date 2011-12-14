@@ -16,7 +16,7 @@
 #define __CONFIGS_H__
 
 /* for VLSI simulation */
-#define CONFIG_VLSI_SIMULATION		1
+#define CONFIG_VLSI_SIMULATION		0
 
 /* for firmware debug */
 #define CONFIG_DEBUG			0

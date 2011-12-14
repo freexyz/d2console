@@ -59,7 +59,7 @@
 							/* 		[3] :	Output clock mux mode select				*/
 							/* 			0 ¡V Combination mode					*/
 							/* 			1- glitch free mode					*/
-#define SDRAM_CLK		(SYS_BASE+0x0005)	/* RW, 0x80,									*/
+#define SDRCLK			(SYS_BASE+0x0005)	/* RW, 0x80,									*/
 							/*		[3:0]: SDRAM clock divider control register			*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
@@ -73,7 +73,7 @@
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
 							/*			15 ¡V 1/16						*/
-#define SOU_CLK			(SYS_BASE+0x0007)	/* RW,    0,									*/
+#define SOUCLK			(SYS_BASE+0x0007)	/* RW,    0,									*/
 							/*		[3:0]: SOU clock divider control register			*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
@@ -83,20 +83,20 @@
 							/*			SOU_CLK and HSN_CLK relation must be 2x			*/
 							/*			0 ¡V Disable						*/
 							/*			1 ¡V Enable						*/
-#define SPI_CLK			(SYS_BASE+0x0008)	/* RW,    0,									*/
+#define SPICLK			(SYS_BASE+0x0008)	/* RW,    0,									*/
 							/*		[3:0]:	SPI flash controller clock divider control register	*/
 							/*			0  ¡V 1/2						*/
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
 							/*			15 ¡V 1/16						*/
 #define SPI_CLK_WIDTH		(SYS_BASE+0x0009)	/* RW,    0, [3:0] SPI flash clock duty control					*/
-#define SN0_CLKDIV		(SYS_BASE+0x000A)	/* RW, 0x80, [3:0] Sensor0 output clock divider control register		*/
+#define SN0CLK			(SYS_BASE+0x000A)	/* RW, 0x80, [3:0] Sensor0 output clock divider control register		*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
 							/*			15 ¡V 1/16						*/
 							/*           [7] Sensor 0 clock output enable					*/
-#define SN1_CLKDIV		(SYS_BASE+0x000B)	/* RW, 0x80, [3:0] Sensor1 output clock divider control register		*/
+#define SN1CLK			(SYS_BASE+0x000B)	/* RW, 0x80, [3:0] Sensor1 output clock divider control register		*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/

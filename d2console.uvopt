@@ -233,8 +233,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>161</TopLine>
+      <CurrentLine>161</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\common\terminal.c</PathWithFileName>
       <FilenameWithoutPath>terminal.c</FilenameWithoutPath>
@@ -479,7 +479,7 @@
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>382</TopLine>
-      <CurrentLine>403</CurrentLine>
+      <CurrentLine>385</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\dvt\dvt_loopback.c</PathWithFileName>
       <FilenameWithoutPath>dvt_loopback.c</FilenameWithoutPath>
@@ -499,7 +499,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>29</TopLine>
+      <TopLine>35</TopLine>
       <CurrentLine>41</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\main.c</PathWithFileName>
@@ -511,10 +511,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>12</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>128</TopLine>
-      <CurrentLine>134</CurrentLine>
+      <TopLine>138</TopLine>
+      <CurrentLine>145</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\d2startup.a51</PathWithFileName>
       <FilenameWithoutPath>d2startup.a51</FilenameWithoutPath>
@@ -643,25 +643,25 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>1</ActiveTab>
+      <ActiveTab>2</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\dvt\dvt_loopback.c</Name>
-          <ColumnNumber>55</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>382</TopLine>
           <CurrentLine>385</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init\main.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>29</TopLine>
-          <CurrentLine>38</CurrentLine>
+          <TopLine>35</TopLine>
+          <CurrentLine>41</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init\d2startup.a51</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>128</TopLine>
-          <CurrentLine>134</CurrentLine>
+          <ColumnNumber>12</ColumnNumber>
+          <TopLine>138</TopLine>
+          <CurrentLine>145</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init\init.c</Name>
@@ -680,6 +680,12 @@
           <ColumnNumber>0</ColumnNumber>
           <TopLine>60</TopLine>
           <CurrentLine>66</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\common\terminal.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>161</TopLine>
+          <CurrentLine>161</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

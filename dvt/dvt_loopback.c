@@ -388,7 +388,7 @@ int dvt_lpbk_ccir656i(void)
 	sou0->mode			= 0;
 
 	sou0->cfg.b.interlace		= 1;
-	sou0->cfg.b.gateclk		= 0;
+	sou0->cfg.b.gateclk		= 1;
 	sou0->cfg.b.enable		= 1;
 
 	// initial TG1
@@ -396,7 +396,7 @@ int dvt_lpbk_ccir656i(void)
 	sou1->mode			= 0;
 
 	sou1->cfg.b.interlace		= 1;
-	sou1->cfg.b.gateclk		= 0;
+	sou1->cfg.b.gateclk		= 1;
 	sou1->cfg.b.enable		= 0;
 
 
@@ -582,7 +582,7 @@ int dvt_lpbk_ccir656p(void)
 	sou0->mode			= 0;
 
 	sou0->cfg.b.interlace		= 1;
-	sou0->cfg.b.gateclk		= 0;
+	sou0->cfg.b.gateclk		= 1;
 	sou0->cfg.b.enable		= 1;
 
 	// initial TG1
@@ -590,7 +590,7 @@ int dvt_lpbk_ccir656p(void)
 	sou1->mode			= 0;
 
 	sou1->cfg.b.interlace		= 1;
-	sou1->cfg.b.gateclk		= 0;
+	sou1->cfg.b.gateclk		= 1;
 	sou1->cfg.b.enable		= 0;
 
 
