@@ -30,6 +30,10 @@ static __code const char	*d2_banner = {
 	"************************************************************\n"
 };
 
+
+extern void		d2_init(void);
+
+
 /*
  * Main Loop
  */
