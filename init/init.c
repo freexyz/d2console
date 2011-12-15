@@ -26,7 +26,7 @@
 void d2_init(void)
 {
 
-	dvt_lpbk_raw8();
+//	dvt_lpbk_raw8();
 //	dvt_lpbk_ccir656i();
 //	dvt_lpbk_ccir656p();
 //	dvt_lpbk_multich();

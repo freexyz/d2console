@@ -539,6 +539,7 @@ int dvt_lpbk_ccir656p(void)
 	siuc.cf6.b.single1	= 0;
 	siuc.cf6.b.parser_en	= 0;	// 1 = enable
 	siuc.cf6.b.parser_chsel	= 0;	// 1 = channel 1, 0 = channel 0
+	siuc.cf6.b.parser_rst	= 0;	// 0 = reset
 
 	// write to hardware register
 	siu_init();
@@ -582,7 +583,7 @@ int dvt_lpbk_ccir656p(void)
 	sou0->mode			= 0;
 
 	sou0->cfg.b.interlace		= 1;
-	sou0->cfg.b.gateclk		= 1;
+	sou0->cfg.b.gateclk		= 0;
 	sou0->cfg.b.enable		= 1;
 
 	// initial TG1
@@ -590,7 +591,7 @@ int dvt_lpbk_ccir656p(void)
 	sou1->mode			= 0;
 
 	sou1->cfg.b.interlace		= 1;
-	sou1->cfg.b.gateclk		= 1;
+	sou1->cfg.b.gateclk		= 0;
 	sou1->cfg.b.enable		= 0;
 
 

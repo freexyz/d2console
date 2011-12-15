@@ -142,7 +142,7 @@ STARTUP1:
 		MOV	P3,#0FFH
 
 		MOV	DPTR, #0027H
-		MOV	A, #041H		; [7]: siu ch1, [6]: siu ch0
+		MOV	A, #0C1H		; [7]: siu ch1, [6]: siu ch0
 		MOVX	@DPTR, A
 
 IF IDATALEN <> 0

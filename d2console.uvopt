@@ -439,7 +439,7 @@
 
   <Group>
     <GroupName>dvt</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -511,7 +511,7 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>12</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>138</TopLine>
       <CurrentLine>145</CurrentLine>
@@ -525,10 +525,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>2</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>22</TopLine>
-      <CurrentLine>28</CurrentLine>
+      <CurrentLine>31</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\init.c</PathWithFileName>
       <FilenameWithoutPath>init.c</FilenameWithoutPath>
@@ -643,7 +643,7 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>2</ActiveTab>
+      <ActiveTab>3</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\dvt\dvt_loopback.c</Name>
@@ -659,33 +659,21 @@
         </Doc>
         <Doc>
           <Name>.\init\d2startup.a51</Name>
-          <ColumnNumber>12</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>138</TopLine>
           <CurrentLine>145</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init\init.c</Name>
-          <ColumnNumber>0</ColumnNumber>
+          <ColumnNumber>2</ColumnNumber>
           <TopLine>22</TopLine>
-          <CurrentLine>28</CurrentLine>
+          <CurrentLine>31</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\include\configs.h</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>44</TopLine>
           <CurrentLine>67</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\drivers\serial\serial.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>60</TopLine>
-          <CurrentLine>66</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\common\terminal.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>161</TopLine>
-          <CurrentLine>161</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>
