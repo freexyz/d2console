@@ -281,6 +281,20 @@
       <PathWithFileName>.\common\cmd_lpbk.c</PathWithFileName>
       <FilenameWithoutPath>cmd_lpbk.c</FilenameWithoutPath>
     </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\common\cmd_accurate.c</PathWithFileName>
+      <FilenameWithoutPath>cmd_accurate.c</FilenameWithoutPath>
+    </File>
   </Group>
 
   <Group>
@@ -484,6 +498,20 @@
       <PathWithFileName>.\dvt\dvt_loopback.c</PathWithFileName>
       <FilenameWithoutPath>dvt_loopback.c</FilenameWithoutPath>
     </File>
+    <File>
+      <GroupNumber>4</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>146</TopLine>
+      <CurrentLine>159</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\dvt\dvt_accurate.c</PathWithFileName>
+      <FilenameWithoutPath>dvt_accurate.c</FilenameWithoutPath>
+    </File>
   </Group>
 
   <Group>
@@ -643,8 +671,14 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>.\drivers\serial\serial.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>60</TopLine>
+          <CurrentLine>66</CurrentLine>
+        </Doc>
         <Doc>
           <Name>.\dvt\dvt_loopback.c</Name>
           <ColumnNumber>0</ColumnNumber>
@@ -674,6 +708,12 @@
           <ColumnNumber>34</ColumnNumber>
           <TopLine>44</TopLine>
           <CurrentLine>48</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\dvt\dvt_accurate.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>146</TopLine>
+          <CurrentLine>159</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

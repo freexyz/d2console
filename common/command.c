@@ -27,6 +27,8 @@ extern command_t	cmd_lpbkraw8_t;
 extern command_t	cmd_lpbk656i_t;
 extern command_t	cmd_lpbk656p_t;
 
+extern command_t	cmd_accurate_t;
+
 /* utility command */
 extern command_t	cmd_xmodem_send_t;
 extern command_t	cmd_xmodem_receive_t;
@@ -52,6 +54,8 @@ __code const command_t		*cmd_tbl[] = {
 	&cmd_lpbkraw8_t,
 	&cmd_lpbk656i_t,
 	&cmd_lpbk656p_t,
+
+	&cmd_accurate_t,
 
 #if (CONFIG_DVT_MEM)
 	&cmd_memtst_t,

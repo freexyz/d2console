@@ -32,9 +32,28 @@
 #endif
 
 
+static __code const char	*accurate_info = {
+	"\n" \
+	"IPU(CH0)->SOU->SIU(CH0) accurate stitch test\n" \
+	"   [IPU] frame buffer:\n" \
+	"      <CH0>: fb1 = 0x00000000, fb2 = 0x00000000, fb3 = 0x00000000\n" \
+	"      <CH1>: fb1 = 0x00400000, fb2 = 0x00400000, fb3 = 0x00400000\n" \
+	"\n" \
+	"   [SIU] frame buffer:\n" \
+	"      <CH0>: fb1 = 0x00200000, fb2 = 0x00400000, fb3 = 0x00600000\n" \
+	"      <CH1>: fb1 = 0x00800000, fb2 = 0x00a00000, fb3 = 0x00c00000\n" \
+	"\n" \
+	"   [PMU] table:\n" \
+	"      <CH0>: tbl = 0x00c00000\n" \
+	"      <CH1>: tbl = 0x00c00000\n" \
+};
+
+
 int dvt_accurate(void)
 {
 	SIMPORT(0xA0);
+
+	msg(accurate_info);
 
 #if (CONFIG_FOSC < 48000000UL)
 	__iow8(CLKSEL, 0x04);
@@ -106,9 +125,8 @@ int dvt_accurate(void)
 	 * SOU initial for interlace
 	 */
 	SIMPORT(0xA2);
-	msg(sou_string, mode_string[3]);
 
-	__iow8(SOUCLK, 0x01);
+	__iow8(SOUCLK, 0x04);
 
 	souc->polarity.b.hsync	= 0;
 	souc->polarity.b.vsync	= 0;
@@ -157,94 +175,78 @@ int dvt_accurate(void)
 	 * IPU initial
 	 */
 	SIMPORT(0xA3);
-	msg(sou_string, mode_string[3]);
 
+	// flush DFU cache
+	__iow8(0x032f, 0x20);
+	__iow8(0x032f, 0x00);
 
+	// ch0 frame addr
+	ipui[0].width		= 672*2;
+	ipui[0].height		= 480;
+	ipui[0].jmp		= 640*2;
 
+	ipui[0].crop		= 672*2;
+	ipui[0].lstart		= 0;
+	ipui[0].lend		= 30;
 
-//ch0 frame addr
-normal_write(16'h304, 8'h00);
-normal_write(16'h305, 8'h00);
-normal_write(16'h306, 8'h00);
-normal_write(16'h307, 8'h00);
+	ipui[0].fb1		= 0x00000000;
+	ipui[0].fb2		= 0x00000000;
+	ipui[0].fb3		= 0x00000000;
 
-normal_write(16'h308, 8'h00);
-normal_write(16'h309, 8'h00);
-normal_write(16'h30a, 8'h00);
-normal_write(16'h30b, 8'h00);
+	// ch1 frame addr
+	ipui[1].width		= 672*2;
+	ipui[1].height		= 480;
+	ipui[1].jmp		= 640*2;
 
-normal_write(16'h30c, 8'h00);
-normal_write(16'h30d, 8'h00);
-normal_write(16'h30e, 8'h00);
-normal_write(16'h30f, 8'h00);
+	ipui[1].crop		= 672*2;
+	ipui[1].lstart		= 0;
+	ipui[1].lend		= 30;
 
-//ch1 frame addr
-normal_write(16'h310, 8'h00);
-normal_write(16'h311, 8'h00);
-normal_write(16'h312, 8'h40);
-normal_write(16'h313, 8'h00);
+	ipui[1].fb1		= 0x00400000;
+	ipui[1].fb2		= 0x00400000;
+	ipui[1].fb3		= 0x00400000;
+	ipui_init();
 
-normal_write(16'h314, 8'h00);
-normal_write(16'h315, 8'h00);
-normal_write(16'h316, 8'h40);
-normal_write(16'h317, 8'h00);
+	ipuc.cf4.b.r_pos	= 0;
+	ipuc.cf4.b.gr_pos	= 0;
+	ipuc.cf4.b.gb_pos	= 0;
+	ipuc.cf4.b.b_pos	= 0;
+	ipuc.cf4.b.hdr		= 0;
+	ipuc.cf4.b.clamp_sel	= 0;
 
-normal_write(16'h318, 8'h00);
-normal_write(16'h319, 8'h00);
-normal_write(16'h31a, 8'h40);
-normal_write(16'h31b, 8'h00);
+	ipuc.cf56.b.fussy_factor = 16;
+	ipuc.cf56.b.fussy_hold	 = 0;
+	ipuc.overlap		 = 128;
 
+	ipuc.cf1.b.order0	= 0;		// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+	ipuc.cf1.b.order1	= 0;		// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+	ipuc.cf1.b.format0	= 2;		// 0 = raw10, 1 = raw8, 2 = yuv
+	ipuc.cf1.b.format1	= 2;		// 0 = raw10, 1 = raw8, 2 = yuv
 
+	ipuc.cf2.b.in_sel1	= 0;		// 0 = SIU1, 1 = SIU0
+	ipuc.cf2.b.in_sel0	= 0;		// 0 = SIU0, 1 = SIU1
+	ipuc.cf2.b.cowrok0	= 0;		// 1 = co-work mode
+	ipuc.cf2.b.cowork1	= 0;		// 1 = co-work mode
 
-//ch0 size
-normal_write(16'h31c, 8'h40);
-normal_write(16'h31d, 8'h05);
-normal_write(16'h31e, 8'h40);
-normal_write(16'h31f, 8'h05);
-normal_write(16'h320, 8'he0);
-normal_write(16'h321, 8'h01);
+	ipuc.cf3.b.slv_slv	= 0;
+	ipuc.cf3.b.opmode	= 0;		// 0 = channel indepent
+						// 1 = horizontal side by side
+						// 2 = vertical side by side
+						// 3 = fussy stitch
+						// 4 = red cyan stitch
+	ipuc.cf3.b.online	= 0;
+	ipuc.cf3.b.out_sel	= 0;
+	ipuc.cf3.b.half_side	= 0;
 
-//ch1 size
-normal_write(16'h322, 8'h40);
-normal_write(16'h323, 8'h05);
-normal_write(16'h324, 8'h40);
-normal_write(16'h325, 8'h05);
-normal_write(16'h326, 8'he0);
-normal_write(16'h327, 8'h01);
+	// set channel0 stchu PMU table
+	__iow32(0x0382, 0x00c00000);
 
-//ch0 &ch1 line start resident &line end resident
-normal_write(16'h328, 8'h1e);
-normal_write(16'h329, 8'h00);
-normal_write(16'h32a, 8'h1e);
-normal_write(16'h32b, 8'h00);
+	// set channel1 stchu PMU table
+	__iow32(0x0386, 0x00c00000);
 
-normal_write(16'h301, 8'h50); //raw8/yuv
-normal_write(16'h302, 8'h00); //stand alone
-normal_write(16'h32c, 8'h00); //bypass
-
-////set channel0 stchu PMU table
-normal_write(16'h382,8'h00);
-normal_write(16'h383,8'h00);
-normal_write(16'h384,8'h80);
-normal_write(16'h385,8'h00);
-
-////set channel1 stchu PMU table 
-normal_write(16'h386,8'h00);
-normal_write(16'h387,8'h00);
-normal_write(16'h388,8'hc0);
-normal_write(16'h389,8'h00);
-
-//reg update
-normal_write(16'h302, 8'h05);  
-normal_write(16'h302, 8'h00);  
-
-//flush DFU cache
-normal_write(16'h32f,8'h20); 
-normal_write(16'h32f,8'h00);    
-   
-//enable & set stchu    
-#2000 normal_write(16'h300,8'hf0);
-
+	// enable & set stchu
+	ipuc.ctrl.v		= 0xf0;
+	ipuc_startup();
 
 	msg("accurate stitch done..\n");
 	return 0;

@@ -372,6 +372,11 @@
               <FileType>1</FileType>
               <FilePath>.\common\cmd_lpbk.c</FilePath>
             </File>
+            <File>
+              <FileName>cmd_accurate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\common\cmd_accurate.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -451,6 +456,11 @@
               <FileName>dvt_loopback.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\dvt\dvt_loopback.c</FilePath>
+            </File>
+            <File>
+              <FileName>dvt_accurate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dvt\dvt_accurate.c</FilePath>
             </File>
           </Files>
         </Group>

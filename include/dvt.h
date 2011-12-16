@@ -33,7 +33,7 @@ extern int		dvt_lpbk_raw8(void);
 extern int		dvt_lpbk_ccir656i(void);
 extern int		dvt_lpbk_ccir656p(void);
 extern int		dvt_lpbk_multich(void);
-
+extern int		dvt_accurate(void);
 
 
 #endif /* __DVT_H__ */
