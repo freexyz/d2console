@@ -165,6 +165,8 @@ struct souinface {
 	unsigned short	height;					// active line per frame
 	unsigned short	x_panning;
 	unsigned short	y_panning;
+
+	// output interface
 	unsigned char	tstmode;
 	unsigned short	ppl;					// pixel per line
 	unsigned short	hsync_start;
@@ -213,13 +215,6 @@ struct souctrl {
 extern struct souinface volatile __xdata	*sou0;
 extern struct souinface volatile __xdata	*sou1;
 extern struct souctrl   volatile __xdata	*souc;
-
-//extern struct souinface		soui[2];
-//extern struct souctrl		souc;
-
-extern void		soui_init(void);
-extern void		souc_init(void);
-extern void		soui_stop(void);
 
 
 #endif /* __REGS_SOU_H__ */

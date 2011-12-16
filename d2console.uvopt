@@ -478,8 +478,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>382</TopLine>
-      <CurrentLine>385</CurrentLine>
+      <TopLine>118</TopLine>
+      <CurrentLine>130</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\dvt\dvt_loopback.c</PathWithFileName>
       <FilenameWithoutPath>dvt_loopback.c</FilenameWithoutPath>
@@ -513,8 +513,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>138</TopLine>
-      <CurrentLine>145</CurrentLine>
+      <TopLine>128</TopLine>
+      <CurrentLine>134</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\d2startup.a51</PathWithFileName>
       <FilenameWithoutPath>d2startup.a51</FilenameWithoutPath>
@@ -615,7 +615,7 @@
   <AlienFiles>
     <PathWithFilename>D:\workspace\8051\d2console\include\configs.h</PathWithFilename>
     <TopLine>44</TopLine>
-    <CurrentLine>67</CurrentLine>
+    <CurrentLine>48</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -643,13 +643,13 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>3</ActiveTab>
+      <ActiveTab>4</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\dvt\dvt_loopback.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>382</TopLine>
-          <CurrentLine>385</CurrentLine>
+          <TopLine>118</TopLine>
+          <CurrentLine>130</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init\main.c</Name>
@@ -660,8 +660,8 @@
         <Doc>
           <Name>.\init\d2startup.a51</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>138</TopLine>
-          <CurrentLine>145</CurrentLine>
+          <TopLine>128</TopLine>
+          <CurrentLine>134</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\init\init.c</Name>
@@ -671,9 +671,9 @@
         </Doc>
         <Doc>
           <Name>.\include\configs.h</Name>
-          <ColumnNumber>0</ColumnNumber>
+          <ColumnNumber>34</ColumnNumber>
           <TopLine>44</TopLine>
-          <CurrentLine>67</CurrentLine>
+          <CurrentLine>48</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

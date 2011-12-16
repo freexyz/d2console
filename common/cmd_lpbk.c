@@ -28,7 +28,7 @@ void cmd_lpbkraw8(int argc, const char *argv[])
 
 
 	if (argc != 1) {
-		printf("invalid 'lpbkraw8' command: too few(many) arguments\n");
+		printf("invalid 'raw8' command: too few(many) arguments\n");
 		return;
 	}
 
@@ -37,9 +37,9 @@ void cmd_lpbkraw8(int argc, const char *argv[])
 }
 
 command_t	cmd_lpbkraw8_t = {
-	"lpbkraw8",
+	"raw8",
 	cmd_lpbkraw8,
-	"lpbkraw8 \t\t\t\t-- RAW8 loopback mode"
+	"raw8 \t\t\t\t-- RAW8 loopback mode"
 };
 
 
@@ -50,7 +50,7 @@ void cmd_lpbk656i(int argc, const char *argv[])
 
 
 	if (argc != 1) {
-		printf("invalid 'lpbk656i' command: too few(many) arguments\n");
+		printf("invalid 'ccir656i' command: too few(many) arguments\n");
 		return;
 	}
 
@@ -59,9 +59,9 @@ void cmd_lpbk656i(int argc, const char *argv[])
 }
 
 command_t	cmd_lpbk656i_t = {
-	"lpbk656i",
+	"ccir656i",
 	cmd_lpbk656i,
-	"lpbk656i \t\t\t\t-- CCIR-656 interlace loopback mode"
+	"ccir656i \t\t\t\t-- CCIR-656 interlace loopback mode"
 };
 
 
@@ -72,7 +72,7 @@ void cmd_lpbk656p(int argc, const char *argv[])
 
 
 	if (argc != 1) {
-		printf("invalid 'lpbk656p' command: too few(many) arguments\n");
+		printf("invalid 'ccir656p' command: too few(many) arguments\n");
 		return;
 	}
 
@@ -81,9 +81,9 @@ void cmd_lpbk656p(int argc, const char *argv[])
 }
 
 command_t	cmd_lpbk656p_t = {
-	"lpbk656p",
+	"ccir656p",
 	cmd_lpbk656p,
-	"lpbk656p \t\t\t\t-- CCIR-656 progressive loopback mode"
+	"ccir656p \t\t\t\t-- CCIR-656 progressive loopback mode"
 };
 
 
