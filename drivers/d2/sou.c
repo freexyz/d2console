@@ -19,3 +19,9 @@ struct souinface volatile __xdata	*sou1 = (struct souinface volatile __xdata *) 
 struct souctrl   volatile __xdata	*souc = (struct souctrl   volatile __xdata *) SOU_POLARITY;
 
 
+void sou_stop(void)
+{
+	sou0->cfg.b.enable = 0;
+	sou1->cfg.b.enable = 0;
+}
+

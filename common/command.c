@@ -23,11 +23,15 @@
 /* test command */
 extern command_t	cmd_memtst_t;
 
+extern command_t	cmd_lpbkstop_t;
 extern command_t	cmd_lpbkraw8_t;
 extern command_t	cmd_lpbk656i_t;
 extern command_t	cmd_lpbk656p_t;
 
+extern command_t	cmd_multich_t;
+
 extern command_t	cmd_accurate_t;
+extern command_t	cmd_align_t;
 
 /* utility command */
 extern command_t	cmd_xmodem_send_t;
@@ -51,11 +55,18 @@ extern command_t	cmd_help_t;
 
 __code const command_t		*cmd_tbl[] = {
 
+	&cmd_lpbkstop_t,
 	&cmd_lpbkraw8_t,
 	&cmd_lpbk656i_t,
 	&cmd_lpbk656p_t,
 
+	&cmd_multich_t,
+
 	&cmd_accurate_t,
+
+#if (CONFIG_ALIGN)
+	&cmd_align_t,
+#endif
 
 #if (CONFIG_DVT_MEM)
 	&cmd_memtst_t,

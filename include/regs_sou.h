@@ -217,4 +217,6 @@ extern struct souinface volatile __xdata	*sou1;
 extern struct souctrl   volatile __xdata	*souc;
 
 
+extern void		sou_stop(void);
+
 #endif /* __REGS_SOU_H__ */

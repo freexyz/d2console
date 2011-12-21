@@ -22,8 +22,10 @@
 #define CONFIG_DEBUG			0
 
 /* for main clock */
-#define CONFIG_FOSC			(48000000UL)
-//#define CONFIG_FOSC			(12000000UL)
+#define CONFIG_FOSC			(66000000UL)
+//#define CONFIG_FOSC			(48000000UL)
+//#define CONFIG_FOSC			(24000000UL)	// dram fail
+//#define CONFIG_FOSC			(12000000UL)	// dram fail
 #define CONFIG_FSCLK			(CONFIG_FOSC)	/* where fsclk is the frequency of the state machine clock. */
 
 #define CONFIG_UART_USE_T0		0
@@ -36,6 +38,7 @@
 # define CONFIG_BAUDRATE		(115200UL)	/* UART baud rate */
 #else
 # define CONFIG_BAUDRATE		(9600UL)	/* UART baud rate */
+//# define CONFIG_BAUDRATE		(19200UL)	/* UART baud rate */
 #endif
 
 // for console definition
@@ -57,7 +60,7 @@
 #define CONFIG_XMODEM			1		/* xmodem function */
 #define CONFIG_SOFT_I2C			0		/* i2c function */
 
-#define CONFIG_AALIGN			0		/* auto align function */
+#define CONFIG_ALIGN			1		/* auto align function */
 #define CONFIG_DVT_MEM			1		/* test memory function */
 
 

@@ -59,6 +59,7 @@ void siu_startup(void)
 
 	// ch0 & ch1 sensor controller reset assert
 	__iow8(SIU_CONF3,	0x0c);
+	__iow8(SIU_CONF6,	siuc.cf6.v & 0xBF);
 	__iow8(0x0030,		0x01);		// adapative clock control
 
 	// raw0 & raw1 width update
@@ -70,6 +71,7 @@ void siu_startup(void)
 
 	// ch0 & ch1 sensor controller reset de-assert
 	__iow8(SIU_CONF3,	0x00);
+	__iow8(SIU_CONF6,	siuc.cf6.v | 0x40);
 
 	// ch0 & ch1 sensor controller, dma enable
 	__iow8(SIU_CTRL,	0x0F);

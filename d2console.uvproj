@@ -377,6 +377,11 @@
               <FileType>1</FileType>
               <FilePath>.\common\cmd_accurate.c</FilePath>
             </File>
+            <File>
+              <FileName>cmd_align.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\common\cmd_align.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -437,16 +442,16 @@
               <FileType>1</FileType>
               <FilePath>.\drivers\d2\sou.c</FilePath>
             </File>
+            <File>
+              <FileName>align.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\d2\align.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>dvt</GroupName>
           <Files>
-            <File>
-              <FileName>dvt_aalign.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\dvt\dvt_aalign.c</FilePath>
-            </File>
             <File>
               <FileName>dvt_mem.c</FileName>
               <FileType>1</FileType>
@@ -461,6 +466,11 @@
               <FileName>dvt_accurate.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\dvt\dvt_accurate.c</FilePath>
+            </File>
+            <File>
+              <FileName>dvt_align.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dvt\dvt_align.c</FilePath>
             </File>
           </Files>
         </Group>

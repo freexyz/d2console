@@ -35,8 +35,8 @@ XDATASTART      EQU     7000H
 ;
 ; <o> XDATALEN: XDATA memory size <0x0-0xFFFF>
 ;     <i> The length of XDATA memory in bytes.
-;XDATALEN        EQU     800H
-XDATALEN        EQU     0H
+XDATALEN        EQU     800H
+;XDATALEN        EQU     0H
 ;
 ; <o> PDATASTART: PDATA memory start address <0x0-0xFFFF>
 ;     <i> The absolute start address of PDATA memory
@@ -143,6 +143,13 @@ STARTUP1:
 
 		MOV	DPTR, #0027H
 		MOV	A, #041H		; [7]: siu ch1, [6]: siu ch0
+		MOVX	@DPTR, A
+		;
+		MOV	DPTR, #0009H
+		MOV	A, #01H
+		MOVX	@DPTR, A
+		MOV	DPTR, #0008H
+		MOV	A, #02H
 		MOVX	@DPTR, A
 
 IF IDATALEN <> 0

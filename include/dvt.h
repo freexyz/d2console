@@ -29,11 +29,13 @@ struct regs_object {
 extern int		dvt_iram(void);
 extern int		dvt_2ksram(void);
 extern int		dvt_sdram(void);
+extern int		dvt_lpbk_stop(void);
 extern int		dvt_lpbk_raw8(void);
 extern int		dvt_lpbk_ccir656i(void);
 extern int		dvt_lpbk_ccir656p(void);
-extern int		dvt_lpbk_multich(void);
+extern int		dvt_lpbk_multich(unsigned char edge);
 extern int		dvt_accurate(void);
+extern int		dvt_align(void);
 
 
 #endif /* __DVT_H__ */

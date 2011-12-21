@@ -151,6 +151,15 @@
 #define IPU_CH1_JMP1			(IPU_BASE+0x0080)	/* R/W,    0, Channel1 addres jump 15~8			*/
 #define IPU_CH1_JMP2			(IPU_BASE+0x0081)	/* R/W,    0, Channel1 addres jump 23~16		*/
 
+#define IPU_PMUTBL0			(IPU_BASE+0x0082)	/* R/W,    0, Channel1 addres jump 7~0			*/
+#define IPU_PMUTBL0_1			(IPU_BASE+0x0083)	/* R/W,    0, Channel1 addres jump 15~8			*/
+#define IPU_PMUTBL0_2			(IPU_BASE+0x0084)	/* R/W,    0, Channel1 addres jump 23~16		*/
+#define IPU_PMUTBL0_3			(IPU_BASE+0x0085)	/* R/W,    0, Channel1 addres jump 31~24		*/
+#define IPU_PMUTBL1			(IPU_BASE+0x0086)	/* R/W,    0, Channel1 addres jump 7~0			*/
+#define IPU_PMUTBL1_1			(IPU_BASE+0x0087)	/* R/W,    0, Channel1 addres jump 15~8			*/
+#define IPU_PMUTBL1_2			(IPU_BASE+0x0088)	/* R/W,    0, Channel1 addres jump 23~16		*/
+#define IPU_PMUTBL1_3			(IPU_BASE+0x0089)	/* R/W,    0, Channel1 addres jump 31~24		*/
+
 
 /*
  * Structure Definition
@@ -180,7 +189,10 @@ struct ipuctrl {
 			unsigned char	stdalone1	: 1;	// 0 = disable, 1 = enable
 			unsigned char	online0		: 1;	// 0 = disable, 1 = enable
 			unsigned char	online1		: 1;	// 0 = disable, 1 = enable
-			unsigned char	rsv1		: 4;	// reserve
+			unsigned char	stchu0en	: 1;	// 0 = disable, 1 = enable
+			unsigned char	stchu1en	: 1;	// 0 = disable, 1 = enable
+			unsigned char	stchu0mode	: 1;	// 1 = stitch mode
+			unsigned char	stchu1mode	: 1;	// 1 = stitch mode
 		} b;
 	} ctrl;
 

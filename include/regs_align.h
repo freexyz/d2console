@@ -1,7 +1,14 @@
 /*
  * include/regs_align.h --
  *
- * Copyright 2010-2011 ZealTek CO., LTD.
+ * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
+ *		T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *
+ *
+ * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ *
+ * History:
  *	2011.11.14	T.C. Chiu <tc.chiu@zealtek.com.tw>
  *
  *
@@ -66,5 +73,66 @@
 #define AUTO_ALIGN_128X64_PANNING_X_1	(AALIGN_BASE+0x000D)	/* RW, 0, [12:8] Horizontal offset within 128x64 window channel. (unit: pixel) */
 #define AUTO_ALIGN_128X64_PANNING_Y_0	(AALIGN_BASE+0x000E)	/* RW, 0, [7:0] */
 #define AUTO_ALIGN_128X64_PANNING_Y_1	(AALIGN_BASE+0x000F)	/* RW, 0, [11:8] Vertical offset within 128x64 window channel. (unit: pixel) */
+
+
+/*
+ * Structure Definition
+ */
+struct alignif {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	trigger		: 1;	// Auto_Align module trigger, the trigger needs a pulse
+			unsigned char	rsv		: 7;	// reserve
+		} b;
+	} cfg;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	busy		: 1;	// Auto_Align module busy status
+			unsigned char	rsv		: 7;	// reserve
+		} b;
+	} status;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	enable		: 1;	// MPU RAM port enable
+			unsigned char	rsv		: 7;	// reserve
+		} b;
+	} ram;
+
+	unsigned char	ram_addr;				// [5:0] MPU RAM port read address 
+	unsigned char	ram_data;				// [6:0] MPU RAM port read data
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	ch_id		: 1;	// channel ID
+								//	0: 64x64 is CH_0,128X64 is CH_1
+								//	1: 64x64 is CH_1,128X64 is CH_0
+			unsigned char	raw		: 1;	// RAW mode
+								//	0: Even line don't do one pixel offset
+								//	1: Even line do one pixel offset because of mode is raw
+			unsigned char	sample		: 1;	// samplex4 mode,
+								//	0: One sample contain 1 pixel
+								//	1: One sample contain 4 pixel
+			unsigned char	rsv		: 5;	// reserve
+		} b;
+	} cfg2;
+
+	unsigned char	scale;					// [1:0] Auto_Align scale up function
+	unsigned char	update;
+
+	unsigned short	x_64x64;
+	unsigned short	y_64x64;
+	unsigned short	x_128x64;
+	unsigned short	y_128x64;
+};
+
+
+extern struct alignif volatile __xdata		*align;
+
 
 #endif /* __REGS_ALIGN_H__ */
