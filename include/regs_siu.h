@@ -1,10 +1,15 @@
 /*
  * include/regs_siu.h --
  *
- * Copyright 2010-2011 ZealTek CO., LTD.
+ * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
+ *		T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *
+ *
+ * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ *
+ * History:
  *	2011.11.22	T.C. Chiu <tc.chiu@zealtek.com.tw>
- *
- *
  */
 
 #include <configs.h>
@@ -72,6 +77,74 @@
 #define SIU_CH1_HEIGHT0			(SIU_BASE+0x0041)	/* R/W, 0, Channel 1 image height 7~0		*/
 #define SIU_CH1_HEIGHT1			(SIU_BASE+0x0042)	/* R/W, 0, Channel 1 image height 12~8		*/
 #define SIU_CONF5			(SIU_BASE+0x0043)	/* R/W, 0, Config register			*/
+#define SIU_CONF6			(SIU_BASE+0x0044)	/* R/W, 0, Config register			*/
+
+/*
+ * Structure Definition
+ */
+struct siuinface {
+	// sensor interface
+	unsigned short	x_ofs;
+	unsigned short	y_ofs;
+	unsigned short	width;
+	unsigned short	height;
+
+	// memory interface
+	unsigned long	fb1;
+	unsigned long	fb2;
+	unsigned long	fb3;
+	unsigned long	jmp;
+
+	// control
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	scan	: 1;	// 0 = progressive, 1 = interlace
+			unsigned char	rsv0	: 1;	// reserve
+			unsigned char	format	: 1;	// 0 = raw8/yuv,    1 = raw10
+			unsigned char	rsv1	: 1;	// reserve
+			unsigned char	online	: 1;	// 0 = off-line,    1 = on-line
+			unsigned char	rsv2	: 1;	// reserve
+			unsigned char	raw8lsb : 1;	// raw8_lsb
+			unsigned char	rsv3	: 1;	// reserve
+		} b;
+	} cf1;
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	ext	: 4;
+			unsigned char	sync	: 2;	// 0 = , 1 = , 2 = , 3 =
+			unsigned char	sedge	: 1;	// 0 = rising-edge, 1 = falling-edge
+			unsigned char	hmode	: 1;	// 0 = H-SYNC,      1 = HREF
+		} b;
+	} cf2;
+};
+
+
+struct siuctrl {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	progressive0	: 1;	// 1 = progressive, 0 = interlace
+			unsigned char	progressive1	: 1;
+			unsigned char	single0		: 1;	// 1 = single capture
+			unsigned char	single1		: 1;
+			unsigned char	parser_en	: 1;	// 1 = enable
+			unsigned char	parser_chsel	: 1;	// 1 = channel 1, 0 = channel 0
+			unsigned char	parser_rst	: 1;	// 0 = reset
+		} b;
+	} cf6;
+};
+
+
+extern struct siuinface		siu[2];
+extern struct siuctrl		siuc;
+
+
+/* */
+extern void	siu_init(void);
+extern void	siu_startup(void);
+extern void 	siu_stop(void);
 
 
 #endif /* __REGS_SIU_H__ */

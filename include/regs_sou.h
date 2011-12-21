@@ -132,4 +132,91 @@
 #define	SOU_TG1_CCIR656_F_END_1			(SOU_BASE+0x0082)	/* R/W,	   0,							*/
 #define SOU_TG1_RAW8_MASK			(SOU_BASE+0x0083)
 
+
+enum sou_tmode {
+	WHITE = 0,
+	YELLOW,
+	CYAN,
+	GREEN,
+	MAGENTA,
+	RED,
+	BLUE,
+	BLACK,
+};
+
+
+/*
+ * Structure Definition
+ */
+struct souinface {
+	unsigned char	mode;
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	enable		: 1;	// 0 = disable, 1 = enable
+			unsigned char	interlace	: 1;	// 0 = progressive, 1 = interlace
+			unsigned char	gateclk		: 1;	// 1 = enable gate clock
+			unsigned char	rsv		: 5;	// reserve
+		} b;
+	} cfg;
+
+	// ipu interface
+	unsigned short	width;					// active pixel per line
+	unsigned short	height;					// active line per frame
+	unsigned short	x_panning;
+	unsigned short	y_panning;
+
+	// output interface
+	unsigned char	tstmode;
+	unsigned short	ppl;					// pixel per line
+	unsigned short	hsync_start;
+	unsigned short	hsync_end;
+	unsigned short	hactive_start;
+	unsigned short	hactive_end;
+	unsigned short	lpf;					// line per frame
+	unsigned short	vsync_start_line;
+	unsigned short	vsync_start_clk;
+	unsigned short	vsync_end_line;
+	unsigned short	vsync_end_clk;
+	unsigned short	vactive_start;
+	unsigned short	vactive_end;
+	unsigned short	even_vsync_start_line;
+	unsigned short	even_vsync_start_clk;
+	unsigned short	even_vsync_end_line;
+	unsigned short	even_vsync_end_clk;
+	unsigned short	even_vactive_start;
+	unsigned short	even_vactive_end;
+	unsigned short	ccir656_f_start;
+	unsigned short	ccir656_f_end;
+	unsigned char	raw8_mask;
+};
+
+
+struct souctrl {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	hsync	: 1;	// 0 = active low, 1 = active high
+	 		unsigned char	vsync	: 1;	// 0 = active low, 1 = active high
+			unsigned char	href	: 1;	// 0 = active low, 1 = active high
+			unsigned char	pclk	: 1;	// 1 = inverse the SOU_Clk
+			unsigned char	rsv1	: 4;
+		} b;
+	} polarity;
+
+	unsigned char	multich;
+	unsigned char	int_state; 
+	unsigned char	int_clr;
+	unsigned char	int_mask;
+	unsigned long	blinkval;			// raw mode: B Gb Gr R, YCbCr mode: x Cr Cb Y
+};
+
+
+extern struct souinface volatile __xdata	*sou0;
+extern struct souinface volatile __xdata	*sou1;
+extern struct souctrl   volatile __xdata	*souc;
+
+
+extern void		sou_stop(void);
+
 #endif /* __REGS_SOU_H__ */

@@ -59,7 +59,7 @@
 							/* 		[3] :	Output clock mux mode select				*/
 							/* 			0 ¡V Combination mode					*/
 							/* 			1- glitch free mode					*/
-#define SDRAM_CLK		(SYS_BASE+0x0005)	/* RW, 0x80,									*/
+#define SDRCLK			(SYS_BASE+0x0005)	/* RW, 0x80,									*/
 							/*		[3:0]: SDRAM clock divider control register			*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
@@ -73,7 +73,7 @@
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
 							/*			15 ¡V 1/16						*/
-#define SOU_CLK			(SYS_BASE+0x0007)	/* RW,    0,									*/
+#define SOUCLK			(SYS_BASE+0x0007)	/* RW,    0,									*/
 							/*		[3:0]: SOU clock divider control register			*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
@@ -83,20 +83,20 @@
 							/*			SOU_CLK and HSN_CLK relation must be 2x			*/
 							/*			0 ¡V Disable						*/
 							/*			1 ¡V Enable						*/
-#define SPI_CLK			(SYS_BASE+0x0008)	/* RW,    0,									*/
+#define SPICLK			(SYS_BASE+0x0008)	/* RW,    0,									*/
 							/*		[3:0]:	SPI flash controller clock divider control register	*/
-							/*			0  ¡V 1/2						*/
+							/*			0  ¡V no support						*/
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
 							/*			15 ¡V 1/16						*/
 #define SPI_CLK_WIDTH		(SYS_BASE+0x0009)	/* RW,    0, [3:0] SPI flash clock duty control					*/
-#define SN0_CLKDIV		(SYS_BASE+0x000A)	/* RW, 0x80, [3:0] Sensor0 output clock divider control register		*/
+#define SN0CLK			(SYS_BASE+0x000A)	/* RW, 0x80, [3:0] Sensor0 output clock divider control register		*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
 							/*			15 ¡V 1/16						*/
 							/*           [7] Sensor 0 clock output enable					*/
-#define SN1_CLKDIV		(SYS_BASE+0x000B)	/* RW, 0x80, [3:0] Sensor1 output clock divider control register		*/
+#define SN1CLK			(SYS_BASE+0x000B)	/* RW, 0x80, [3:0] Sensor1 output clock divider control register		*/
 							/*			0  ¡V bypass mode					*/
 							/*			1  ¡V 1/2						*/
 							/*			2  ¡V 1/3						*/
@@ -136,6 +136,37 @@
 							/*	     [1] Bypass mode							*/
 							/*		0 ¡V bypass all HW module, output source select by sn_in_sel	*/
 							/*		1 ¡V Host sensor output from SOU					*/
+#define ALIG_MODE		(SYS_BASE+0x0023)	/* RW,    0, Auto alignment model clock source mux mode select			*/
+							/*		0 ¡V Combination mode						*/
+							/*		1 - glitch free mode						*/
+#define CLKGATE			(SYS_BASE+0x0024)	/* RW, 0xFF, Clock gating register for power save				*/
+							/*		0 ¡V main clock							*/
+							/*		    Main clock include register control for SIU, SOU and IPU.   */
+							/*		    It also include IPU core logic clock source.		*/
+							/*		1 - CPU clock							*/
+							/*		2 - SDRAM controller for main clock				*/
+							/*		    SDRAM controller need two clock source.			*/
+							/*		    One is SDRAM clock,the other is SDRAM main clock. This bit	*/
+							/*		    is control the SDRAM main clock source. Must be sure	*/
+							/*		    disable SDRAM function before turn off this clock.		*/
+#define EA			(SYS_BASE+0x0025)	/* RW,  PCB, Enable external SPI flash access. This bit define CPU program	*/
+							/*	     memory bus access target. When CPU enable, EA bit will clear to 0.	*/
+							/*	     This bit will be set to 1 when disable the CPU function.		*/
+							/*	     It could be modify by external DSP by I2C				*/
+#define RST			(SYS_BASE+0x0026)	/* RW,    0, Software reset for each module.					*/
+							/*		0 ¡V Global reset						*/
+							/*		1 ¡V CPU								*/
+							/*		2 ¡V SDRAM controller						*/
+							/*		3 ¡V Auto alignment module					*/
+							/*		4 ¡V SOU								*/
+							/*		5 ¡V IPU								*/
+							/*		6 ¡V SIU								*/
+#define SRAM_MODE		(SYS_BASE+0x0027)	/* RW,    0, Select 2KB SRAM access mode					*/
+							/*		0 ¡V 0: Program memory access mode, 1: XRAM access mode		*/
+							/*										*/
+							/*		6 - Channel 0 loopback mode enable				*/
+							/*		7 - Channel 1 loopback mode enable				*/
+
 
 #endif /* __REGS_SYS_H__ */
 

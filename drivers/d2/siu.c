@@ -16,106 +16,50 @@
 #include <regs_siu.h>
 
 
-void siu_set_fb(enum d2channel ch, unsigned long fb1, unsigned long fb2, unsigned long fb3)
+struct siuinface	siu[2];
+struct siuctrl		siuc;
+
+
+void siu_init(void)
 {
-	switch (ch) {
-	// ch0 frame buffer address
-	case CH0:
-		__iow32(SIU_CH0_F1S0, fb1);
-		__iow32(SIU_CH0_F2S0, fb2);
-		__iow32(SIU_CH0_F3S0, fb3);
-		break;
- 	// ch1 frame buffer address
-	case CH1:
-		__iow32(SIU_CH1_F1S0, fb1);
-		__iow32(SIU_CH1_F2S0, fb2);
-		__iow32(SIU_CH1_F3S0, fb3);
-		break;
+	// channel 0
+	__iow16(SIU_CH0_X0,	 siu[0].x_ofs);
+	__iow16(SIU_CH0_Y0,	 siu[0].y_ofs);
+	__iow16(SIU_CH0_WIDTH0,  siu[0].width);
+	__iow16(SIU_CH0_HEIGHT0, siu[0].height);
 
-	case BOTH:
-		__iow32(SIU_CH0_F1S0, fb1);
-		__iow32(SIU_CH0_F2S0, fb2);
-		__iow32(SIU_CH0_F3S0, fb3);
+	__iow32(SIU_CH0_F1S0,	 siu[0].fb1);
+	__iow32(SIU_CH0_F2S0,	 siu[0].fb2);
+	__iow32(SIU_CH0_F3S0,	 siu[0].fb3);
+	__iow24(SIU_CH0_JMP0,	 siu[0].jmp);
 
-		__iow32(SIU_CH1_F1S0, fb1);
-		__iow32(SIU_CH1_F2S0, fb2);
-		__iow32(SIU_CH1_F3S0, fb3);
-		break;
-	}
+	// channel 1
+	__iow16(SIU_CH1_X0,	 siu[1].x_ofs);
+	__iow16(SIU_CH1_Y0,	 siu[1].y_ofs);
+	__iow16(SIU_CH1_WIDTH0,  siu[1].width);
+	__iow16(SIU_CH1_HEIGHT0, siu[1].height);
 
+	__iow32(SIU_CH1_F1S0,	 siu[1].fb1);
+	__iow32(SIU_CH1_F2S0,	 siu[1].fb2);
+	__iow32(SIU_CH1_F3S0,	 siu[1].fb3);
+	__iow24(SIU_CH1_JMP0,	 siu[1].jmp);
+
+	// control
+	__iow8(SIU_CONF1,	 (siu[1].cf1.v << 1) | siu[0].cf1.v);
+	__iow8(SIU_CONF4,	 siu[0].cf2.v);
+	__iow8(SIU_CONF5,	 siu[1].cf2.v);
+
+	__iow8(SIU_CONF6,	 siuc.cf6.v);
 }
-
-
-void siu_set_szjmp(enum d2channel ch, unsigned short width, unsigned short height, unsigned long jmp)
-{
-	switch (ch) {
-	case CH0:
-		__iow24(SIU_CH0_JMP0,    jmp);
-		__iow16(SIU_CH0_WIDTH0,  width);
-		__iow16(SIU_CH0_HEIGHT0, height);
-		break;
-
-	case CH1:
-		__iow24(SIU_CH1_JMP0,    jmp);
-		__iow16(SIU_CH1_WIDTH0,  width);
-		__iow16(SIU_CH1_HEIGHT0, height);
-		break;
-	
-	case BOTH:
-		__iow24(SIU_CH0_JMP0,    jmp);
-		__iow16(SIU_CH0_WIDTH0,  width);
-		__iow16(SIU_CH0_HEIGHT0, height);
-
-		__iow24(SIU_CH1_JMP0,    jmp);
-		__iow16(SIU_CH1_WIDTH0,  width);
-		__iow16(SIU_CH1_HEIGHT0, height);
-		break;
-	}
-}
-
-
-void siu_set_xyoffset(enum d2channel ch, unsigned short x, unsigned short y)
-{
-	switch (ch) {
-	case CH0:
-		__iow16(SIU_CH0_X0, x);
-		__iow16(SIU_CH0_Y0, y);
-		break;
-
-	case CH1:
-		__iow16(SIU_CH1_X0, x);
-		__iow16(SIU_CH1_Y0, y);
-		break;
-	}
-}
-
-
-void siu_set_mode(enum d2channel ch, unsigned char mode)
-{
-	switch (ch) {
-	case CH0:
-		__iow8(SIU_CONF4, mode);
-		break;
-
-	case CH1:
-		__iow8(SIU_CONF5, mode);
-		break;
-	
-	case BOTH:
-		__iow8(SIU_CONF4, mode);
-		__iow8(SIU_CONF5, mode);
-		break;
-	}
-}
-
 
 
 void siu_startup(void)
 {
-	__iow8(SIU_CONF1,	0xc0);
+//	__iow8(SIU_CONF1,	0xc0);
 
 	// ch0 & ch1 sensor controller reset assert
 	__iow8(SIU_CONF3,	0x0c);
+	__iow8(SIU_CONF6,	siuc.cf6.v & 0xBF);
 	__iow8(0x0030,		0x01);		// adapative clock control
 
 	// raw0 & raw1 width update
@@ -127,6 +71,7 @@ void siu_startup(void)
 
 	// ch0 & ch1 sensor controller reset de-assert
 	__iow8(SIU_CONF3,	0x00);
+	__iow8(SIU_CONF6,	siuc.cf6.v | 0x40);
 
 	// ch0 & ch1 sensor controller, dma enable
 	__iow8(SIU_CTRL,	0x0F);

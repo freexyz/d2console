@@ -39,6 +39,8 @@ modules.builtin
 #
 /d2.ini
 /d2.vspe
+/d2.als
+/sou.als
 /d2console.plg
 /d2console.prj
 /d2console.uvgui_user.bak

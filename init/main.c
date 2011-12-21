@@ -49,7 +49,7 @@ void main(void)
 
 	SIMPORT(0x20);
 
-#if 1
+#if 0
 	SIMPORT(0x21);
 	dvt_sdram();
 	SIMPORT(0x22);

@@ -56,14 +56,6 @@ enum d2tg {
 /* Function Prototype */
 extern void	d2_init(void);
 
-/* siu */
-extern void	siu_set_fb(enum d2channel ch, unsigned long fb1, unsigned long fb2, unsigned long fb3);
-extern void	siu_set_szjmp(enum d2channel ch, unsigned short width, unsigned short height, unsigned long jmp);
-extern void	siu_set_xyoffset(enum d2channel ch, unsigned short x, unsigned short y);
-extern void	siu_set_mode(enum d2channel ch, unsigned char mode);
-extern void	siu_startup(void);
-extern void 	siu_stop(void);
-
 /* ipu */
 extern void	ipu_set_fb(enum d2channel ch, unsigned long fb1, unsigned long fb2, unsigned long fb3);
 extern void	ipu_set_xyjmp(enum d2channel ch, unsigned short width, unsigned short height, unsigned long jmp);
@@ -73,10 +65,6 @@ extern void	ipu_set_opmode(unsigned char op, unsigned char factor, unsigned shor
 extern void	ipu_set_cowork(unsigned char dsrc);
 extern void	ipu_startup(enum d2stream op);
 extern void	ipu_stop(void);
-
-/* sou */
-extern char	sou_set_ppl(enum d2tg ch, unsigned short total, unsigned short active, unsigned short dummy, unsigned short blink);
-extern char	sou_set_lpf(enum d2tg ch, unsigned short total, unsigned short active, unsigned short dummy, unsigned short blink);
 
 
 
