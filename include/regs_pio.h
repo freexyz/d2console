@@ -1,7 +1,15 @@
 /*
  * include/regs_pio.h --
  *
- * Copyright 2010-2011 ZealTek CO., LTD.
+ *
+ * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
+ *		T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *
+ *
+ * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ *
+ * History:
  *	2011.11.22	T.C. Chiu <tc.chiu@zealtek.com.tw>
  *
  *
@@ -13,7 +21,7 @@
 #define __REGS_PIO_H__
 
 #if !defined(PIO_BASE)
-#error Please define 'PIO_BASE'
+# error Please define 'PIO_BASE'
 #endif
 
 #define P0_DATA		(PIO_BASE+0x0000)	/* R/W, 0, DATA0 , Write data to set PIO_OUT, Read data form PIO_IO	*/
@@ -40,6 +48,20 @@
 #define P9_DIR		(PIO_BASE+0x0013)
 #define P10_DATA	(PIO_BASE+0x0014)
 #define P10_DIR		(PIO_BASE+0x0015)
+
+
+/*
+ * Structure Definition
+ */
+struct pioif {
+	unsigned char	dat;
+	unsigned char	dir;
+};
+
+
+extern struct pioif volatile __xdata		*pio;
+extern unsigned char volatile __xdata		*piomode;
+
 
 
 #endif /* __REGS_PIO_H__ */

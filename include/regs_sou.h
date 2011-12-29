@@ -28,6 +28,8 @@
 
 #define	SOU_ENCODER_0_MODE			(SOU_BASE+0x0010)	/* R/W,	    ,							*/
 #define	SOU_TG0_CFG				(SOU_BASE+0x0011)	/* R/W,	    ,							*/
+
+// UNIT: Pixel
 #define	SOU_TG0_WIDTH_0				(SOU_BASE+0x0012)	/* R/W,	0x0C, The width	of SOU_TG_0 panning windows		*/
 #define	SOU_TG0_WIDTH_1				(SOU_BASE+0x0013)	/* R/W,	0x03,  within IPU active region				*/
 #define	SOU_TG0_HEIGHT_0			(SOU_BASE+0x0014)	/* R/W,	0x07, The height of SOU_TG_0 panning windows		*/
@@ -36,7 +38,10 @@
 #define	SOU_TG0_PANNING_X_1			(SOU_BASE+0x0017)	/* R/W,	   0,							*/
 #define	SOU_TG0_PANNING_Y_0			(SOU_BASE+0x0018)	/* R/W,	   0,							*/
 #define	SOU_TG0_PANNING_Y_1			(SOU_BASE+0x0019)	/* R/W,	   0,							*/
+
 #define SOU_TG0_TMODE				(SOU_BASE+0x001A)
+
+// UNIT: byte
 #define	SOU_TG0_CLKS_PERH_0			(SOU_BASE+0x001B)	/* R/W,	0x0C, Set the clock counts per line			*/
 #define	SOU_TG0_CLKS_PERH_1			(SOU_BASE+0x001C)	/* R/W,	0x03,							*/
 #define	SOU_TG0_HSYNC_START_0			(SOU_BASE+0x001D)	/* R/W,	0x01, The starting clock count of Hsync	signal		*/
@@ -216,7 +221,9 @@ extern struct souinface volatile __xdata	*sou0;
 extern struct souinface volatile __xdata	*sou1;
 extern struct souctrl   volatile __xdata	*souc;
 
-
+/* Function Prototype */
 extern void		sou_stop(void);
+
+
 
 #endif /* __REGS_SOU_H__ */

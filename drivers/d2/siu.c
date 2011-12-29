@@ -53,7 +53,7 @@ void siu_init(void)
 }
 
 
-void siu_startup(void)
+void siu_startup(char mode)
 {
 //	__iow8(SIU_CONF1,	0xc0);
 
@@ -74,7 +74,15 @@ void siu_startup(void)
 	__iow8(SIU_CONF6,	siuc.cf6.v | 0x40);
 
 	// ch0 & ch1 sensor controller, dma enable
-	__iow8(SIU_CTRL,	0x0F);
+	if (mode == 0) {
+		__iow8(SIU_CTRL,	0x0F);		// sensor mode
+	} else {
+#if (CONFIG_FPGA_VERSION <= 520)
+		__iow8(SIU_CTRL,	0x0F);
+#else
+		__iow8(SIU_CTRL,	0x33);		// CIR656 mode
+#endif
+	}
 
 	// sensor register update
 	__iow8(SIU_CONF3,	0x03);

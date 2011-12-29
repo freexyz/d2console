@@ -117,5 +117,37 @@ long d2Bmemcmp(unsigned long a1, unsigned long a2, unsigned long num)
 	return state;
 }
 
+long d2Bmempicmp(unsigned long p, unsigned long i, unsigned short x, unsigned short y)
+{
+	long		state;
+	unsigned long	n;
+	unsigned long	j;
+
+	state  = -1;
+	y    >>= 1;
+
+	// odd line
+	for (j=0, n=i; j<y; j++) {
+		state = d2Bmemcmp(p, n, x);
+		if (state != -1) {
+			goto exit;
+		}
+		p += x;
+		n += (x << 1);
+	}
+
+	// even line
+	for (j=0, n=i+x; j<y; j++) {
+		state = d2Bmemcmp(p, n, x);
+		if (state != -1) {
+			goto exit;
+		}
+		p += x;
+		n += (x << 1);
+	}
+exit:
+	return state;
+}
+
 
 #endif	/* CONFIG_MEM */

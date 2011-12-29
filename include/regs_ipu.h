@@ -234,7 +234,7 @@ struct ipuctrl {
 								// 1 = channel 0 map to sou1 input
 								//     channel 1 map to sou0 input
 			unsigned char	half_side	: 1;	// 1 = output scalar down
-			unsigned char	rsv1		: 1;	// reserve
+			unsigned char	rsv		: 1;	// reserve
 		} b;
 	} cf3;
 
@@ -257,7 +257,8 @@ struct ipuctrl {
 		struct {
 			unsigned short	fussy_factor	: 11;	// fussy_s = round(1024 / overlap)
 			unsigned short	fussy_hold	: 2;	// weight incr and decr slope
-			unsigned short	rsv1		: 3;	// reserve
+			unsigned short	flush		: 1;	// flush DFU cache
+			unsigned short	rsv		: 2;	// reserve
 		} b;
 	} cf56;
 
@@ -268,10 +269,134 @@ struct ipuctrl {
 extern struct ipuinface		ipui[2];
 extern struct ipuctrl		ipuc;
 
+
+
+struct ipuif {
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	stdalone0	: 1;	// 0 = disable, 1 = enable
+			unsigned char	stdalone1	: 1;	// 0 = disable, 1 = enable
+			unsigned char	online0		: 1;	// 0 = disable, 1 = enable
+			unsigned char	online1		: 1;	// 0 = disable, 1 = enable
+			unsigned char	stchu0en	: 1;	// 0 = disable, 1 = enable
+			unsigned char	stchu1en	: 1;	// 0 = disable, 1 = enable
+			unsigned char	stchu0mode	: 1;	// 1 = stitch mode
+			unsigned char	stchu1mode	: 1;	// 1 = stitch mode
+		} b;
+	} ctrl;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	order0		: 2;	// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+			unsigned char	order1		: 2;	// 0 = UYVY, 1 = YUYV, 2 = VYUY, 3 = YVYU
+			unsigned char	format0		: 2;	// 0 = raw10, 1 = raw8, 2 = yuv
+			unsigned char	format1		: 2;	// 0 = raw10, 1 = raw8, 2 = yuv
+		} b;
+	} cfg1;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	w_update1	: 1;	// 1 = update
+			unsigned char	in_sel1		: 1;	// 0 = SIU1, 1 = SIU0
+			unsigned char	w_update0	: 1;	// 1 = update
+			unsigned char	in_sel0		: 1;	// 0 = SIU0, 1 = SIU1
+			unsigned char	cowrok0		: 1;	// 1 = co-work mode
+			unsigned char	cowork1		: 1;	// 1 = co-work mode
+			unsigned char	rsv		: 2;	// reserve
+		} b;
+	} cfg2;
+
+	unsigned char	status;
+
+	unsigned long	ch0fb1;
+	unsigned long	ch0fb2;
+	unsigned long	ch0fb3;
+	unsigned long	ch1fb1;
+	unsigned long	ch1fb2;
+	unsigned long	ch1fb3;
+
+	unsigned short	ch0corpw;
+	unsigned short	ch0origw;
+	unsigned short	ch0height;
+	unsigned short	ch1corpw;
+	unsigned short	ch1origw;
+	unsigned short	ch1height;
+
+	unsigned char	ch0lend;
+	unsigned char	ch0lstart;
+	unsigned char	ch1lend;
+	unsigned char	ch1lstart;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	slv_slv		: 1;
+			unsigned char	opmode		: 3;	// 0 = channel indepent
+								// 1 = horizontal side by side
+								// 2 = vertical side by side
+								// 3 = fussy stitch
+								// 4 = red cyan stitch
+			unsigned char	online		: 1;	// Same as online en
+			unsigned char	out_sel		: 1;	// 0 = channel 0 map to sou0 input
+								//     channel 1 map to sou1 input
+								// 1 = channel 0 map to sou1 input
+								//     channel 1 map to sou0 input
+			unsigned char	half_side	: 1;	// 1 = output scalar down
+			unsigned char	rsv		: 1;	// reserve
+		} b;
+	} cfg3;
+
+	union {
+		unsigned char	v;
+		struct {
+			unsigned char	r_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	gr_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	gb_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	b_pos		: 1;	// 0:fetch ch0 image pixel, 1:fetch ch1 image pixel
+			unsigned char	hdr		: 1;	// 00:00:00
+			unsigned char	clamp_sel	: 3;	// bit0: 0:clamp range within 0~255, 1:clamp range  within -127~128 for default Y
+								// bit1: 0:clamp range within 0~255, 1:clamp range  within -127~128 for default CB
+								// bit2: 0:clamp range within 0~255, 1:clamp range  within -127~128 for default CR
+		} b;
+	} cfg4;
+
+	union {
+		unsigned short	v;
+		struct {
+			unsigned short	fussy_factor	: 11;	// fussy_s = round(1024 / overlap)
+			unsigned short	fussy_hold	: 2;	// weight incr and decr slope
+			unsigned short	rsv1		: 3;	// reserve
+		} b;
+	} cfg56;
+
+	unsigned short	overlap;
+
+	struct {
+		unsigned short	lo;
+		unsigned char	hi;
+	} a[18];
+
+	unsigned short	c[6];
+	unsigned short	k[3];
+
+	unsigned short	ch0jmp;
+	unsigned char	ch0jmp1;
+	unsigned short	ch1jmp;
+	unsigned char	ch1jmp1;
+
+	unsigned long	ch0pmutbl;
+	unsigned long	ch1pmutbl;
+};
+
+
+
+/* Function Prototype */
 extern void		ipui_init(void);
 extern void		ipuc_startup(void);
 extern void		ipuc_stop(void);
-
 
 
 

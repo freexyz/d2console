@@ -141,9 +141,9 @@ extern struct siuinface		siu[2];
 extern struct siuctrl		siuc;
 
 
-/* */
+/* Function Prototype */
 extern void	siu_init(void);
-extern void	siu_startup(void);
+extern void	siu_startup(char mode);
 extern void 	siu_stop(void);
 
 

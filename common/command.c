@@ -23,6 +23,9 @@
 /* test command */
 extern command_t	cmd_memtst_t;
 
+extern command_t	cmd_hside_t;
+extern command_t	cmd_vside_t;
+
 extern command_t	cmd_lpbkstop_t;
 extern command_t	cmd_lpbkraw8_t;
 extern command_t	cmd_lpbk656i_t;
@@ -31,7 +34,15 @@ extern command_t	cmd_lpbk656p_t;
 extern command_t	cmd_multich_t;
 
 extern command_t	cmd_accurate_t;
+extern command_t	cmd_fussy_t;
+
 extern command_t	cmd_align_t;
+
+extern command_t	cmd_i2crd_t;
+extern command_t	cmd_i2cwe_t;
+extern command_t	cmd_i2crd16_t;
+extern command_t	cmd_i2cwe16_t;
+extern command_t	cmd_hsntst_t;
 
 /* utility command */
 extern command_t	cmd_xmodem_send_t;
@@ -46,6 +57,7 @@ extern command_t	cmd_imem_dump_t;
 extern command_t	cmd_dump_mem_t;
 extern command_t	cmd_swbank_t;
 extern command_t	cmd_memcmp_t;
+extern command_t	cmd_mempicmp_t;
 extern command_t	cmd_msetb_t;
 extern command_t	cmd_msetw_t;
 extern command_t	cmd_msetdw_t;
@@ -55,6 +67,9 @@ extern command_t	cmd_help_t;
 
 __code const command_t		*cmd_tbl[] = {
 
+	&cmd_hside_t,
+	&cmd_vside_t,
+
 	&cmd_lpbkstop_t,
 	&cmd_lpbkraw8_t,
 	&cmd_lpbk656i_t,
@@ -63,10 +78,17 @@ __code const command_t		*cmd_tbl[] = {
 	&cmd_multich_t,
 
 	&cmd_accurate_t,
+	&cmd_fussy_t,
 
 #if (CONFIG_ALIGN)
 	&cmd_align_t,
 #endif
+
+	&cmd_i2crd_t,
+	&cmd_i2cwe_t,
+	&cmd_i2crd16_t,
+	&cmd_i2cwe16_t,
+	&cmd_hsntst_t,
 
 #if (CONFIG_DVT_MEM)
 	&cmd_memtst_t,
@@ -89,6 +111,7 @@ __code const command_t		*cmd_tbl[] = {
 	&cmd_mov_wr_t,
 	&cmd_swbank_t,
 	&cmd_memcmp_t,
+	&cmd_mempicmp_t,
 	&cmd_msetb_t,
 	&cmd_msetw_t,
 	&cmd_msetdw_t,

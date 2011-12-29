@@ -74,6 +74,10 @@
 #define AUTO_ALIGN_128X64_PANNING_Y_0	(AALIGN_BASE+0x000E)	/* RW, 0, [7:0] */
 #define AUTO_ALIGN_128X64_PANNING_Y_1	(AALIGN_BASE+0x000F)	/* RW, 0, [11:8] Vertical offset within 128x64 window channel. (unit: pixel) */
 
+#define RAM512x11_ADDR0			(AALIGN_BASE+0x0010)
+#define RAM512x11_ADDR1			(AALIGN_BASE+0x0011)
+#define RAM512x11_DATA			(AALIGN_BASE+0x0012)
+
 
 /*
  * Structure Definition
@@ -115,7 +119,7 @@ struct alignif {
 			unsigned char	raw		: 1;	// RAW mode
 								//	0: Even line don't do one pixel offset
 								//	1: Even line do one pixel offset because of mode is raw
-			unsigned char	sample		: 1;	// samplex4 mode,
+			unsigned char	samplex4	: 1;	// samplex4 mode,
 								//	0: One sample contain 1 pixel
 								//	1: One sample contain 4 pixel
 			unsigned char	rsv		: 5;	// reserve
@@ -129,10 +133,16 @@ struct alignif {
 	unsigned short	y_64x64;
 	unsigned short	x_128x64;
 	unsigned short	y_128x64;
+
+	unsigned short	ram512a;
+	unsigned char	ram512d;
 };
 
 
 extern struct alignif volatile __xdata		*align;
+
+/* Function Prototype */
+
 
 
 #endif /* __REGS_ALIGN_H__ */

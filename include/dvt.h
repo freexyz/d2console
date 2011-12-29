@@ -36,6 +36,9 @@ extern int		dvt_lpbk_ccir656p(void);
 extern int		dvt_lpbk_multich(unsigned char edge);
 extern int		dvt_accurate(void);
 extern int		dvt_align(void);
+extern int		dvt_fussy(void);
+extern int		dvt_hside(void);
+extern int		dvt_vside(void);
 
 
 #endif /* __DVT_H__ */

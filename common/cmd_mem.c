@@ -254,7 +254,7 @@ void cmd_memcmp(int argc, const char *argv[])
 	num = strtoul(argv[3], NULL, 16);
 
 	state = d2Bmemcmp(a1, a2, num);
-	if (state == (-1)){
+	if (state == (-1)) {
 		printf("no different\n");
 	} else {
 		printf("data different at = %08lx\n", state);	
@@ -264,7 +264,39 @@ void cmd_memcmp(int argc, const char *argv[])
 command_t	cmd_memcmp_t = {
 	"memcmp",
 	cmd_memcmp,
-	"memcmp <addr24> <addr24> <num32> \t-- memory compare (linear)"
+	"memcmp <src24> <dst24> <len32> \t-- memory compare (linear)"
+};
+
+
+void cmd_mempicmp(int argc, const char *argv[])
+{
+	unsigned long	a1;
+	unsigned long	a2;
+	unsigned short	x;
+	unsigned short	y;
+	long		state;
+
+	if (argc != 5) {
+		printf("invalid 'mempicmp' command: too few(many) arguments\n");
+		return;
+	}
+	a1 = strtoul(argv[1], NULL, 16);
+	a2 = strtoul(argv[2], NULL, 16);
+	x  = (unsigned short) strtoul(argv[3], NULL, 16);
+	y  = (unsigned short) strtoul(argv[4], NULL, 16);
+
+	state = d2Bmempicmp(a1, a2, x, y);
+	if (state == (-1)) {
+		printf("no different\n");
+	} else {
+		printf("data different at = %08lx\n", state);	
+	}
+}
+
+command_t	cmd_mempicmp_t = {
+	"mempicmp",
+	cmd_mempicmp,
+	"mempicmp <p24> <i24> <x16> <y16> \t-- memory p to i compare (linear)"
 };
 
 

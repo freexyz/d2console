@@ -14,19 +14,19 @@
 
 #include <stdio.h>
 #include <configs.h>
-#include <serial.h>
 #include <terminal.h>
 #include <dvt.h>
 
 
 
 static __code const char	*d2_banner = {
-	"\n"									\
-	"************************************************************\n"	\
-	"*                     D2 Test Program                      *\n"	\
-	"*                                                   by TCC *\n"	\
-	"*                                                          *\n"	\
-	"*                     Build time is: %s  %s *\n"			\
+	"\n" \
+	"************************************************************\n" \
+	"*                     D2 Test Program                      *\n" \
+	"*                                                   by TCC *\n" \
+	"*                                                          *\n" \
+	"*                            FPGA version (stable) is: %s *\n" \
+	"*                     Build time is: %s  %s *\n" \
 	"************************************************************\n"
 };
 
@@ -39,8 +39,7 @@ void main(void)
 
 	/* initial deivce */
 	EA = 0;
-	serial_init();
-	d2_init();
+	sys_init();
 	EA = 1;
 
 	SIMPORT(0x20);
@@ -58,7 +57,7 @@ void main(void)
 	SIMPORT(0x30);
 
 	/* main menu */
-	printf(d2_banner, __DATE__ , __TIME__);
+	printf(d2_banner, CONFIG_STABLE_FPGA, __DATE__ , __TIME__);
 
 	SIMPORT(0x40);
 	terminal();

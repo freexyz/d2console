@@ -89,12 +89,6 @@ int dvt_lpbk_raw8(void)
 
 	SIMPORT(0xF0);
 
-#if (CONFIG_FOSC < 48000000UL)
-	__iow8(CLKSEL, 0x04);
-#else
-	__iow8(CLKSEL, 0x00);
-#endif
-
 	__iow8(0x0027, 0x41);
 
 	/*
@@ -154,7 +148,7 @@ int dvt_lpbk_raw8(void)
 
 	// write to hardware register
 	siu_init();
-	siu_startup();
+	siu_startup(0);
 
 
 	/*
@@ -191,7 +185,7 @@ int dvt_lpbk_raw8(void)
 	sou0->vactive_end	= __le16(480+10-1);
 
 	sou0->tstmode		= GREEN;
-	sou0->mode		= 2;
+	sou0->mode		= 2;		// 0=ccir656, 1=ccir601, 2=raw8, 3=raw10
 
 	sou0->cfg.b.interlace	= 0;
 	sou0->cfg.b.gateclk	= 1;
@@ -216,7 +210,7 @@ int dvt_lpbk_raw8(void)
 	sou1->vactive_end	= __le16(480+10-1);
 
 	sou1->tstmode		= RED;
-	sou1->mode		= 2;
+	sou1->mode		= 2;		// 0=ccir656, 1=ccir601, 2=raw8, 3=raw10
 
 	sou1->cfg.b.interlace	= 0;
 	sou1->cfg.b.gateclk	= 1;
@@ -314,12 +308,6 @@ int dvt_lpbk_ccir656i(void)
 {
 	SIMPORT(0xE0);
 
-#if (CONFIG_FOSC < 48000000UL)
-	__iow8(CLKSEL, 0x04);
-#else
-	__iow8(CLKSEL, 0x00);
-#endif
-
 	__iow8(0x0027, 0x41);
 
 	/*
@@ -377,7 +365,7 @@ int dvt_lpbk_ccir656i(void)
 
 	// write to hardware register
 	siu_init();
-	siu_startup();
+	siu_startup(1);
 
 
 	/*
@@ -529,12 +517,6 @@ int dvt_lpbk_ccir656p(void)
 {
 	SIMPORT(0xD0);
 
-#if (CONFIG_FOSC < 48000000UL)
-	__iow8(CLKSEL, 0x04);
-#else
-	__iow8(CLKSEL, 0x00);
-#endif
-
 	__iow8(0x0027, 0x41);
 
 	/*
@@ -593,7 +575,7 @@ int dvt_lpbk_ccir656p(void)
 
 	// write to hardware register
 	siu_init();
-	siu_startup();
+	siu_startup(1);
 
 
 	/*
@@ -740,12 +722,6 @@ int dvt_lpbk_multich(unsigned char edge)
 
 	SIMPORT(0xC0);
 
-#if (CONFIG_FOSC < 48000000UL)
-	__iow8(CLKSEL, 0x04);
-#else
-	__iow8(CLKSEL, 0x00);
-#endif
-
 	__iow8(0x0027, 0x41);
 
 	/*
@@ -804,7 +780,7 @@ int dvt_lpbk_multich(unsigned char edge)
 
 	// write to hardware register
 	siu_init();
-	siu_startup();
+	siu_startup(1);
 
 	/*
 	 * SOU initial

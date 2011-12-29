@@ -34,6 +34,7 @@ void cmd_align(int argc, const char *argv[])
 
 	dvt_align();
 
+	argv[1] = NULL;
 }
 
 command_t	cmd_align_t = {

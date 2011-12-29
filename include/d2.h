@@ -54,18 +54,8 @@ enum d2tg {
 
 
 /* Function Prototype */
+extern void	sys_init(void);
 extern void	d2_init(void);
-
-/* ipu */
-extern void	ipu_set_fb(enum d2channel ch, unsigned long fb1, unsigned long fb2, unsigned long fb3);
-extern void	ipu_set_xyjmp(enum d2channel ch, unsigned short width, unsigned short height, unsigned long jmp);
-extern void	ipu_set_crop(enum d2channel ch, unsigned short width, unsigned char lstart, unsigned char lend);
-extern void	ipu_set_format(unsigned char format);
-extern void	ipu_set_opmode(unsigned char op, unsigned char factor, unsigned short overlap);
-extern void	ipu_set_cowork(unsigned char dsrc);
-extern void	ipu_startup(enum d2stream op);
-extern void	ipu_stop(void);
-
 
 
 

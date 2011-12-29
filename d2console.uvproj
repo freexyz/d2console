@@ -373,14 +373,24 @@
               <FilePath>.\common\cmd_lpbk.c</FilePath>
             </File>
             <File>
-              <FileName>cmd_accurate.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\common\cmd_accurate.c</FilePath>
-            </File>
-            <File>
               <FileName>cmd_align.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\common\cmd_align.c</FilePath>
+            </File>
+            <File>
+              <FileName>cmd_stitch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\common\cmd_stitch.c</FilePath>
+            </File>
+            <File>
+              <FileName>cmd_side.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\common\cmd_side.c</FilePath>
+            </File>
+            <File>
+              <FileName>cmd_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\common\cmd_i2c.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -423,11 +433,6 @@
               <FilePath>.\drivers\serial\serial.c</FilePath>
             </File>
             <File>
-              <FileName>soft_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\drivers\i2c\soft_i2c.c</FilePath>
-            </File>
-            <File>
               <FileName>siu.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\drivers\d2\siu.c</FilePath>
@@ -446,6 +451,21 @@
               <FileName>align.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\drivers\d2\align.c</FilePath>
+            </File>
+            <File>
+              <FileName>pio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\d2\pio.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\i2c\i2c_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>t515bm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\drivers\tvdec\t515bm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -471,6 +491,21 @@
               <FileName>dvt_align.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\dvt\dvt_align.c</FilePath>
+            </File>
+            <File>
+              <FileName>dvt_fussy.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dvt\dvt_fussy.c</FilePath>
+            </File>
+            <File>
+              <FileName>dvt_hside.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dvt\dvt_hside.c</FilePath>
+            </File>
+            <File>
+              <FileName>dvt_vside.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dvt\dvt_vside.c</FilePath>
             </File>
           </Files>
         </Group>

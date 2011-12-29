@@ -14,6 +14,7 @@
  */
 #include <stddef.h>
 #include <stdio.h>
+#include <absacc.h>
 
 #include <configs.h>
 #include <serial.h>
@@ -37,13 +38,12 @@
 
 int dvt_align(void)
 {
+	int		i;
+	unsigned char	state;
+
+
 	SIMPORT(0x90);
 
-#if (CONFIG_FOSC < 48000000UL)
-	__iow8(CLKSEL, 0x04);
-#else
-	__iow8(CLKSEL, 0x00);
-#endif
 	msg("auto-align initialize...\n");
 
 	__iow8(0x0027, 0xC1);
@@ -57,14 +57,14 @@ int dvt_align(void)
 
 	align->scale		= 0;
 
-	align->cfg2.b.ch_id	= 0;
-	align->cfg2.b.raw	= 0;
-	align->cfg2.b.sample	= 0;
+	align->cfg2.b.ch_id	= 0;		// 
+	align->cfg2.b.raw	= 1;
+	align->cfg2.b.samplex4	= 1;
 
-	align->x_64x64		= 0;
-	align->y_64x64		= 0;
-	align->x_128x64		= 0;
-	align->y_128x64		= 0;
+	align->x_64x64		= __le16(9);	// channel 0
+	align->y_64x64		= __le16(4);
+	align->x_128x64		= __le16(5);	// channel 1
+	align->y_128x64		= __le16(2);
 
 	align->update		= 1;
 	align->update		= 0;
@@ -79,8 +79,8 @@ int dvt_align(void)
 	SIMPORT(0x91);
 
 	// initial ch0
-	siu[0].x_ofs		= 0;
-	siu[0].y_ofs		= 0;
+	siu[0].x_ofs		= 104;
+	siu[0].y_ofs		= 1;
 	siu[0].width		= 640;
 	siu[0].height		= 150;
 	siu[0].fb1		= 0x00200000;
@@ -93,14 +93,14 @@ int dvt_align(void)
 	siu[0].cf1.b.online	= 0;
 	siu[0].cf1.b.raw8lsb	= 0;
 
-	siu[0].cf2.b.ext	= 2;	// VSYNC high active, HSYNC high active
+	siu[0].cf2.b.ext	= 2;
 	siu[0].cf2.b.sync	= 2;
 	siu[0].cf2.b.sedge	= 0;
 	siu[0].cf2.b.hmode	= 0;
 
 	// initial ch1
-	siu[1].x_ofs		= 0;
-	siu[1].y_ofs		= 0;
+	siu[1].x_ofs		= 104;
+	siu[1].y_ofs		= 151;
 	siu[1].width		= 640;
 	siu[1].height		= 150;
 	siu[1].fb1		= 0x00800000;
@@ -129,7 +129,7 @@ int dvt_align(void)
 
 	// write to hardware register
 	siu_init();
-	siu_startup();
+	siu_startup(0);
 
 
 	/*
@@ -148,7 +148,7 @@ int dvt_align(void)
 
 	// initial TG0
 	sou0->width		= __le16(640);
-	sou0->height		= __le16(150);
+	sou0->height		= __le16(300);
 
 	sou0->ppl		= __le16(858);
 	sou0->hsync_start	= __le16(2);
@@ -162,13 +162,13 @@ int dvt_align(void)
 	sou0->vsync_end_line	= __le16(20);
 	sou0->vsync_end_clk	= __le16(1);
 	sou0->vactive_start	= __le16(21);
-	sou0->vactive_end	= __le16(21+150-1);
+	sou0->vactive_end	= __le16(21+300-1);
 
 	sou0->ccir656_f_start	= __le16(265);
 	sou0->ccir656_f_end	= __le16(3);
 
 	sou0->tstmode		= GREEN;
-	sou0->mode		= 0;
+	sou0->mode		= 2;		// 0=ccir656, 1=ccir601, 2=raw8, 3=raw10
 
 	sou0->cfg.b.interlace	= 0;
 	sou0->cfg.b.gateclk	= 1;
@@ -176,7 +176,7 @@ int dvt_align(void)
 
 	// initial TG1
 	sou1->tstmode		= RED;
-	sou1->mode		= 0;
+	sou1->mode		= 2;		// 0=ccir656, 1=ccir601, 2=raw8, 3=raw10
 
 	sou1->cfg.b.interlace	= 0;
 	sou1->cfg.b.gateclk	= 1;
@@ -194,7 +194,7 @@ int dvt_align(void)
 
 	// ch0 frame addr
 	ipui[0].width		= 640;
-	ipui[0].height		= 150;
+	ipui[0].height		= 300;
 	ipui[0].jmp		= 640;
 
 	ipui[0].crop		= 640;
@@ -207,7 +207,7 @@ int dvt_align(void)
 
 	// ch1 frame addr
 	ipui[1].width		= 640;
-	ipui[1].height		= 150;
+	ipui[1].height		= 300;
 	ipui[1].jmp		= 640;
 
 	ipui[1].crop		= 640;
@@ -267,7 +267,49 @@ int dvt_align(void)
 	ipuc.ctrl.b.stchu1mode	= 0;	// 1 = stitch mode
 	ipuc_startup();
 
-	msg("auto-align done..\n");
+	msg("auto-align done...\n");
+
+#if (CONFIG_VLSI_SIMULATION == 0)
+	msg("auto-align wait for VSYNC...\n");
+	i     = 0;
+	state = 0;
+	while (1) {
+		switch (state) {
+		case 0:
+			if (!(__ior8(SIU_CTRL) & 0x10))
+				state = 1;
+			break;
+		case 1:
+			if (__ior8(SIU_CTRL) & 0x10)
+				state = 2;
+			break;
+		case 2:
+			i++;
+			state = 0;
+			break;
+		}
+		if (i >= 5) {
+			break;
+		}
+	}
+#endif
+
+	msg("auto-align dump result\n");
+	msg("= RAM 64x7 =\n");
+	align->ram.v	= 1;
+	align->ram_addr	= 0;
+	for (i=0; i<64; i++) {
+		XBYTE[0x7400+i] = align->ram_data;
+	};
+	hex_dump((unsigned char __xdata *) 0x7400, 64);
+
+	msg("= RAM 512x11 =\n");
+	__iow8(RAM512x11_ADDR1, 0);
+	__iow8(RAM512x11_ADDR0, 0);
+	for (i=0; i<512; i++) {
+		XBYTE[0x7400+i] = align->ram512d;
+	};
+	hex_dump((unsigned char __xdata *) 0x7400, 512);
 
 	SIMPORT(0x9F);
 	return 0;

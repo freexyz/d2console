@@ -1,5 +1,4 @@
-/*
- * dvt/dvt_hside.c
+/* dvt/dvt_vside.c -- 
  *
  * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
  *		T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -9,7 +8,9 @@
  * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
  *
  * History:
- *	2011.12.23	T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *	2011.12.22	T.C. Chiu <tc.chiu@zealtek.com.tw>
+ *
+ *
  */
 #include <stddef.h>
 #include <stdio.h>
@@ -33,18 +34,18 @@
 #endif
 
 
-int dvt_hside(void)
+int dvt_vside(void)
 {
-	SIMPORT(0x60);
+	SIMPORT(0x70);
 
-	msg("hside initial start...\n");
+	msg("vside initial start...\n");
 
 	__iow8(0x0027, 0x41);
 
 	/*
 	 * SIU initial
 	 */
-	SIMPORT(0x61);
+	SIMPORT(0x71);
 
 	// initial ch0
 	siu[0].x_ofs		= 0;
@@ -61,8 +62,8 @@ int dvt_hside(void)
 	siu[0].cf1.b.online	= 0;
 	siu[0].cf1.b.raw8lsb	= 0;
 
-	siu[0].cf2.b.ext	= 2;
-	siu[0].cf2.b.sync	= 2;
+	siu[0].cf2.b.ext	= 0;	// VSYNC high active, HSYNC high active
+	siu[0].cf2.b.sync	= 0;
 	siu[0].cf2.b.sedge	= 0;
 	siu[0].cf2.b.hmode	= 0;
 
@@ -81,8 +82,8 @@ int dvt_hside(void)
 	siu[1].cf1.b.online	= 0;
 	siu[1].cf1.b.raw8lsb	= 0;
 
-	siu[1].cf2.b.ext	= 2;	// VSYNC high active, HSYNC high active
-	siu[1].cf2.b.sync	= 2;
+	siu[1].cf2.b.ext	= 0;	// VSYNC high active, HSYNC high active
+	siu[1].cf2.b.sync	= 0;
 	siu[1].cf2.b.sedge	= 0;
 	siu[1].cf2.b.hmode	= 0;
 
@@ -103,7 +104,7 @@ int dvt_hside(void)
 	/*
 	 * SOU initial for interlace
 	 */
-	SIMPORT(0x62);
+	SIMPORT(0x72);
 
 	__iow8(SOUCLK, 0x03);
 
@@ -115,22 +116,22 @@ int dvt_hside(void)
 	souc->blinkval		= __le32(0x15851A8A);	// B Gb Gr R
 
 	// initial TG0
-	sou0->width		= __le16(8000*2);
-	sou0->height		= __le16(4);
+	sou0->width		= __le16(4);
+	sou0->height		= __le16(4000*2);
 
-	sou0->ppl		= __le16(8100*2);
+	sou0->ppl		= __le16(858);
 	sou0->hsync_start	= __le16(2);
 	sou0->hsync_end		= __le16(34);
 	sou0->hactive_start	= __le16(138);
-	sou0->hactive_end	= __le16(138+8000*2-1);
+	sou0->hactive_end	= __le16(138+4-1);
 
-	sou0->lpf		= __le16(525);
+	sou0->lpf		= __le16(8191);
 	sou0->vsync_start_line	= __le16(1);
 	sou0->vsync_start_clk	= __le16(1);
 	sou0->vsync_end_line	= __le16(20);
 	sou0->vsync_end_clk	= __le16(1);
 	sou0->vactive_start	= __le16(21);
-	sou0->vactive_end	= __le16(21+4-1);
+	sou0->vactive_end	= __le16(21+4000*2-1);
 
 	sou0->ccir656_f_start	= __le16(265);
 	sou0->ccir656_f_end	= __le16(3);
@@ -154,37 +155,37 @@ int dvt_hside(void)
 	/*
 	 * IPU initial
 	 */
-	SIMPORT(0x63);
+	SIMPORT(0x73);
 
 	// flush DFU cache
-	__iow8(0x032f, 0x20);
-	__iow8(0x032f, 0x00);
+	__iow8(IPU_CONF6, 0x20);
+	__iow8(IPU_CONF6, 0x00);
 
 	// ch0 frame addr
-	ipui[0].width		= 8000;
-	ipui[0].height		= 4;
-	ipui[0].jmp		= 8000;
+	ipui[0].width		= 4;
+	ipui[0].height		= 4000;
+	ipui[0].jmp		= 4;
 
-	ipui[0].crop		= 8000;
+	ipui[0].crop		= 4;
 	ipui[0].lstart		= 0;
 	ipui[0].lend		= 30;
 
-	ipui[0].fb1		= 0;
-	ipui[0].fb2		= 0;
-	ipui[0].fb3		= 0;
+	ipui[0].fb1		= 0x00000000;
+	ipui[0].fb2		= 0x00000000;
+	ipui[0].fb3		= 0x00000000;
 
 	// ch1 frame addr
-	ipui[1].width		= 8000;
-	ipui[1].height		= 4;
-	ipui[1].jmp		= 8000;
+	ipui[1].width		= 4;
+	ipui[1].height		= 4000;
+	ipui[1].jmp		= 4;
 
-	ipui[1].crop		= 8000;
+	ipui[1].crop		= 4;
 	ipui[1].lstart		= 0;
 	ipui[1].lend		= 30;
 
-	ipui[1].fb1		= 8000;
-	ipui[1].fb2		= 8000;
-	ipui[1].fb3		= 8000;
+	ipui[1].fb1		= 0x00000000;
+	ipui[1].fb2		= 0x00000000;
+	ipui[1].fb3		= 0x00000000;
 	ipui_init();
 
 	ipuc.cf4.b.r_pos	= 0;
@@ -209,7 +210,7 @@ int dvt_hside(void)
 	ipuc.cf2.b.cowork1	= 0;		// 1 = co-work mode
 
 	ipuc.cf3.b.slv_slv	= 0;
-	ipuc.cf3.b.opmode	= 1;		// 0 = channel indepent
+	ipuc.cf3.b.opmode	= 2;		// 0 = channel indepent
 						// 1 = horizontal side by side
 						// 2 = vertical side by side
 						// 3 = fussy stitch
@@ -235,11 +236,9 @@ int dvt_hside(void)
 	ipuc.ctrl.b.stchu1mode	= 0;	// 1 = stitch mode
 	ipuc_startup();
 
-	msg("hside initial done...\n");
+	msg("vside initial done..\n");
 
-	SIMPORT(0x6F);
+	SIMPORT(0x7F);
 	return 0;
 }
-
-
 

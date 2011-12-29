@@ -23,9 +23,7 @@
 
 void cmd_accurate(int argc, const char *argv[])
 {
-	argc = argc;
 	argv = argv;
-
 
 	if (argc != 1) {
 		printf("invalid 'accurate' command: too few(many) arguments\n");
@@ -43,3 +41,21 @@ command_t	cmd_accurate_t = {
 };
 
 
+void cmd_fussy(int argc, const char *argv[])
+{
+	argv = argv;
+
+	if (argc != 1) {
+		printf("invalid 'fussy' command: too few(many) arguments\n");
+		return;
+	}
+
+	dvt_fussy();
+
+}
+
+command_t	cmd_fussy_t = {
+	"fussy",
+	cmd_fussy,
+	"fussy \t\t\t\t-- fussy stitch"
+};

@@ -21,9 +21,15 @@
 /* for firmware debug */
 #define CONFIG_DEBUG			0
 
+//#define CONFIG_FPGA_VERSION		478
+//#define CONFIG_FPGA_VERSION		519
+#define CONFIG_FPGA_VERSION		525
+
+#define CONFIG_STABLE_FPGA		"507"
+
 /* for main clock */
-#define CONFIG_FOSC			(66000000UL)
-//#define CONFIG_FOSC			(48000000UL)
+//#define CONFIG_FOSC			(66000000UL)
+#define CONFIG_FOSC			(48000000UL)
 //#define CONFIG_FOSC			(24000000UL)	// dram fail
 //#define CONFIG_FOSC			(12000000UL)	// dram fail
 #define CONFIG_FSCLK			(CONFIG_FOSC)	/* where fsclk is the frequency of the state machine clock. */
@@ -38,7 +44,6 @@
 # define CONFIG_BAUDRATE		(115200UL)	/* UART baud rate */
 #else
 # define CONFIG_BAUDRATE		(9600UL)	/* UART baud rate */
-//# define CONFIG_BAUDRATE		(19200UL)	/* UART baud rate */
 #endif
 
 // for console definition
@@ -58,7 +63,15 @@
 #define CONFIG_TERMINAL			1		/* terminal */
 #define CONFIG_MEM			1		/* memory dump */
 #define CONFIG_XMODEM			1		/* xmodem function */
-#define CONFIG_SOFT_I2C			0		/* i2c function */
+#define CONFIG_I2C_GPIO			1		/* i2c function */
+#if (CONFIG_I2C_GPIO)
+# define CONFIG_HSN_SDA			GPIO78
+# define CONFIG_HSN_SCL			GPIO79
+# define CONFIG_SN0_SDA			GPIO50
+# define CONFIG_SN0_SCL			CONFIG_HSN_SCL
+# define CONFIG_SN1_SDA			GPIO64
+# define CONFIG_SN1_SCL			CONFIG_HSN_SCL
+#endif
 
 #define CONFIG_ALIGN			1		/* auto align function */
 #define CONFIG_DVT_MEM			1		/* test memory function */

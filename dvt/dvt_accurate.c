@@ -54,12 +54,6 @@ int dvt_accurate(void)
 	SIMPORT(0xA0);
 
 	msg(accurate_info);
-
-#if (CONFIG_FOSC < 48000000UL)
-	__iow8(CLKSEL, 0x04);
-#else
-	__iow8(CLKSEL, 0x00);
-#endif
 	msg("accurate stitch initialize...\n");
 
 	__iow8(0x0027, 0x41);
@@ -120,7 +114,7 @@ int dvt_accurate(void)
 
 	// write to hardware register
 	siu_init();
-	siu_startup();
+	siu_startup(1);
 
 
 	/*
