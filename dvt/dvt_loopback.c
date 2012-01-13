@@ -6,7 +6,7 @@
  *
  *
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
- * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
  *	2011.12.09	T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -85,11 +85,10 @@ int dvt_lpbk_stop(void)
  */
 int dvt_lpbk_raw8(void)
 {
-	msg(lpbk_info, mode_string[0]);
-
 	SIMPORT(0xF0);
 
 	__iow8(0x0027, 0x41);
+	msg(lpbk_info, mode_string[0]);
 
 	/*
 	 * SIU initial
@@ -718,11 +717,11 @@ int dvt_lpbk_ccir656p(void)
  */
 int dvt_lpbk_multich(unsigned char edge)
 {
-	msg(lpbk_info, mode_string[((edge == 0) ? 4 : 5)]);
-
 	SIMPORT(0xC0);
 
 	__iow8(0x0027, 0x41);
+
+	msg(lpbk_info, mode_string[((edge == 0) ? 4 : 5)]);
 
 	/*
 	 * SIU initial

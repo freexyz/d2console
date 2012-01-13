@@ -141,8 +141,9 @@ STARTUP1:
 		MOV	P2,#0FFH
 		MOV	P3,#0FFH
 
+		; select 2KB SRAM access mode
 		MOV	DPTR, #0027H
-		MOV	A, #041H		; [7]: siu ch1, [6]: siu ch0
+		MOV	A, #01H		; 1 : XRAM access mode
 		MOVX	@DPTR, A
 		;
 		MOV	DPTR, #0009H

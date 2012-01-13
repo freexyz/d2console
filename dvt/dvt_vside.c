@@ -5,7 +5,7 @@
  *
  *
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
- * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
  *	2011.12.22	T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -38,9 +38,8 @@ int dvt_vside(void)
 {
 	SIMPORT(0x70);
 
-	msg("vside initial start...\n");
-
 	__iow8(0x0027, 0x41);
+	msg("vside initial start...\n");
 
 	/*
 	 * SIU initial

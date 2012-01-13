@@ -6,7 +6,7 @@
  *
  *
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
- * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
  *	2011.12.15	T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -54,9 +54,10 @@ int dvt_accurate(void)
 	SIMPORT(0xA0);
 
 	msg(accurate_info);
-	msg("accurate stitch initialize...\n");
 
 	__iow8(0x0027, 0x41);
+
+	msg("accurate stitch initialize...\n");
 
 	/*
 	 * SIU initial

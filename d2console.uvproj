@@ -392,6 +392,11 @@
               <FileType>1</FileType>
               <FilePath>.\common\cmd_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>cmd_csp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\common\cmd_csp.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -506,6 +511,11 @@
               <FileName>dvt_vside.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\dvt\dvt_vside.c</FilePath>
+            </File>
+            <File>
+              <FileName>dvt_csp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dvt\dvt_csp.c</FilePath>
             </File>
           </Files>
         </Group>

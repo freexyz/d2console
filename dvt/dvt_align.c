@@ -5,7 +5,7 @@
  *
  *
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
- * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
  *	2011.12.20	T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -36,17 +36,60 @@
 #endif
 
 
+/*
+ *****************************************************************************
+ *
+ * Wait for VSYNC
+ *
+ *****************************************************************************
+ */
+void dvt_wait_vsync(unsigned char n)
+{
+#if (CONFIG_VLSI_SIMULATION == 0)
+	unsigned char	state = 0;
+	unsigned char	i     = 0;
+
+
+	while (1) {
+		switch (state) {
+		case 0:
+			if (!(__ior8(SIU_CTRL) & 0x10))
+				state = 1;
+			break;
+		case 1:
+			if (__ior8(SIU_CTRL) & 0x10)
+				state = 2;
+			break;
+		case 2:
+			msg("   get VSYNC=%02d\n", (int) i);
+			i++;
+			state = 0;
+			break;
+		}
+		if (i >= n) {
+			break;
+		}
+	}
+#endif
+}
+
+
+/*
+ *****************************************************************************
+ *
+ * Auto-Align
+ *
+ *****************************************************************************
+ */
 int dvt_align(void)
 {
 	int		i;
-	unsigned char	state;
 
 
 	SIMPORT(0x90);
 
-	msg("auto-align initialize...\n");
-
 	__iow8(0x0027, 0xC1);
+	msg("auto-align initialize...\n");
 
 	/*
 	 * Auti-Align initial
@@ -269,30 +312,8 @@ int dvt_align(void)
 
 	msg("auto-align done...\n");
 
-#if (CONFIG_VLSI_SIMULATION == 0)
 	msg("auto-align wait for VSYNC...\n");
-	i     = 0;
-	state = 0;
-	while (1) {
-		switch (state) {
-		case 0:
-			if (!(__ior8(SIU_CTRL) & 0x10))
-				state = 1;
-			break;
-		case 1:
-			if (__ior8(SIU_CTRL) & 0x10)
-				state = 2;
-			break;
-		case 2:
-			i++;
-			state = 0;
-			break;
-		}
-		if (i >= 5) {
-			break;
-		}
-	}
-#endif
+	dvt_wait_vsync(5);
 
 	msg("auto-align dump result\n");
 	msg("= RAM 64x7 =\n");

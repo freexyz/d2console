@@ -55,8 +55,6 @@ enum d2tg {
 
 /* Function Prototype */
 extern void	sys_init(void);
-extern void	d2_init(void);
-
 
 
 #endif /* __D2_H__ */

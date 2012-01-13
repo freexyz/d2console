@@ -6,7 +6,7 @@
  *
  *
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
- * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
  *	2011.12.15	T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -24,6 +24,10 @@
 #include <regs_sys.h>
 
 #include <dvt.h>
+
+#define FUSSY_IMGSRC		640
+//#define FUSSY_IMGSRC		672
+
 
 #if (!CONFIG_VLSI_SIMULATION)
 # define msg		printf
@@ -52,11 +56,10 @@ static __code const char	*fussy_info = {
 int dvt_fussy(void)
 {
 	SIMPORT(0x80);
-
 	msg(fussy_info);
-	msg("fussy stitch initialize...\n");
 
 	__iow8(0x0027, 0x41);
+	msg("fussy stitch initialize...\n");
 
 	/*
 	 * SIU initial
@@ -186,9 +189,15 @@ int dvt_fussy(void)
 	__iow8(IPU_CONF6, 0x00);
 
 	// ch0 frame addr
+#if (FUSSY_IMGSRC == 672)
 	ipui[0].width		= 672*2;
+#elif (FUSSY_IMGSRC == 640)
+	ipui[0].width		= 640*2;
+#else
+# error Please define 'FUSSY_IMGSRC'
+#endif
 	ipui[0].height		= 480;
-	ipui[0].jmp		= 672*2;
+	ipui[0].jmp		= 672*2;	// stitch mode don't care
 
 	ipui[0].crop		= 672*2;
 	ipui[0].lstart		= 0;
@@ -199,9 +208,15 @@ int dvt_fussy(void)
 	ipui[0].fb3		= 0x00000000;
 
 	// ch1 frame addr
+#if (FUSSY_IMGSRC == 672)
 	ipui[1].width		= 672*2;
+#elif (FUSSY_IMGSRC == 640)
+	ipui[1].width		= 640*2;
+#else
+# error Please define 'FUSSY_IMGSRC'
+#endif
 	ipui[1].height		= 480;
-	ipui[1].jmp		= 672*2;
+	ipui[1].jmp		= 672*2;	// stitch mode don't care
 
 	ipui[1].crop		= 672*2;
 	ipui[1].lstart		= 0;

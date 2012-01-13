@@ -38,6 +38,8 @@ extern command_t	cmd_fussy_t;
 
 extern command_t	cmd_align_t;
 
+extern command_t	cmd_csp_t;
+
 extern command_t	cmd_i2crd_t;
 extern command_t	cmd_i2cwe_t;
 extern command_t	cmd_i2crd16_t;
@@ -83,6 +85,8 @@ __code const command_t		*cmd_tbl[] = {
 #if (CONFIG_ALIGN)
 	&cmd_align_t,
 #endif
+
+	&cmd_csp_t,
 
 	&cmd_i2crd_t,
 	&cmd_i2cwe_t,

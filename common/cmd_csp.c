@@ -1,4 +1,4 @@
-/* common/cmd_align.c -- 
+/* common/cmd_csp.c --
  *
  * Copyright 2010-2011 ZealTek CO., LTD. <http://www.zealtek.com.tw/>
  *		T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -8,8 +8,7 @@
  * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
- *	2011.12.20	T.C. Chiu <tc.chiu@zealtek.com.tw>
- *
+ *	2011.12.30	T.C. Chiu <tc.chiu@zealtek.com.tw>
  *
  */
 #include <stdio.h>
@@ -20,27 +19,23 @@
 
 #include <dvt.h>
 
-#if (CONFIG_ALIGN)
 
-void cmd_align(int argc, const char *argv[])
+void cmd_csp(int argc, const char *argv[])
 {
-	argv = argv;
-
-
+	argv[1] = NULL;
 	if (argc != 1) {
-		printf("invalid 'align' command: too few(many) arguments\n");
+		printf("invalid 'csp' command: too few(many) arguments\n");
 		return;
 	}
 
-	dvt_align();
-
-	argv[1] = NULL;
+	dvt_csp();
 }
 
-command_t	cmd_align_t = {
-	"align",
-	cmd_align,
-	"align \t\t\t\t-- auto-align"
+command_t	cmd_csp_t = {
+	"csp",
+	cmd_csp,
+	"csp \t\t\t\t\t-- change start pointer"
 };
 
-#endif /* CONFIG_ALIGN */
+
+

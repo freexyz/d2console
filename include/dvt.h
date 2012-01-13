@@ -25,7 +25,7 @@ struct regs_object {
 	unsigned char	value;
 };
 
-
+extern void		dvt_wait_vsync(unsigned char n);
 extern int		dvt_iram(void);
 extern int		dvt_2ksram(void);
 extern int		dvt_sdram(void);
@@ -39,6 +39,7 @@ extern int		dvt_align(void);
 extern int		dvt_fussy(void);
 extern int		dvt_hside(void);
 extern int		dvt_vside(void);
+extern int		dvt_csp(void);
 
 
 #endif /* __DVT_H__ */

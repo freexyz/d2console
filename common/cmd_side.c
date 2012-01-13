@@ -5,7 +5,7 @@
  *
  *
  * THIS SOFTWARE IS PROVIDED UNDER LICENSE AND CONTAINS PROPRIETARY
- * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF SQ TECH.
+ * AND CONFIDENTIAL MATERIAL WHICH IS THE PROPERTY OF ZEALTEK.
  *
  * History:
  *	2011.12.23	T.C. Chiu <tc.chiu@zealtek.com.tw>
@@ -22,16 +22,13 @@
 
 void cmd_hside(int argc, const char *argv[])
 {
-	argv = argv;
-
+	argv[1] = NULL;
 	if (argc != 1) {
 		printf("invalid 'hside' command: too few(many) arguments\n");
 		return;
 	}
 
 	dvt_hside();
-
-	argv[1] = NULL;
 }
 
 command_t	cmd_hside_t = {
@@ -43,16 +40,13 @@ command_t	cmd_hside_t = {
 
 void cmd_vside(int argc, const char *argv[])
 {
-	argv = argv;
-
+	argv[1] = NULL;
 	if (argc != 1) {
 		printf("invalid 'vside' command: too few(many) arguments\n");
 		return;
 	}
 
 	dvt_vside();
-
-	argv[1] = NULL;
 }
 
 command_t	cmd_vside_t = {
