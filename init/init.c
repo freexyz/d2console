@@ -33,8 +33,10 @@ static void d2_init(void)
 //	dvt_lpbk_raw8();
 //	dvt_lpbk_ccir656i();
 	dvt_lpbk_ccir656p();
-//	dvt_lpbk_multich(0);	// single
-//	dvt_lpbk_multich(1);	// double
+//	dvt_lpbk_multich('p', 's');	// single
+//	dvt_lpbk_multich('p', 'd');	// double
+//	dvt_lpbk_multich('i', 's');
+//	dvt_lpbk_multich('i', 'd');
 //	dvt_accurate();
 //	dvt_fussy();
 //	dvt_align();

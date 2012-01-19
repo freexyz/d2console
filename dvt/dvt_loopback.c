@@ -39,7 +39,8 @@ static __code const char	*mode_string[] = {
 	"CCIR-656p",
 	"multi-channel progressive single edge",
 	"multi-channel progressive double edge",
-	"multi-channel CCIR-656 double edge"
+	"multi-channel interlace single edge",
+	"multi-channel interlace double edge"
 };
 
 static __code const char	*siu_string  = { "SIU %s Initial\n" };
@@ -715,19 +716,26 @@ int dvt_lpbk_ccir656p(void)
  *
  *****************************************************************************
  */
-int dvt_lpbk_multich(unsigned char edge)
+#define msg_multich(s) \
+	if (scan == 'p') { \
+		msg(s, mode_string[((edge == 's') ? 4 : 5)]); \
+	} else { \
+		msg(s, mode_string[((edge == 's') ? 6 : 7)]); \
+	}
+
+int dvt_lpbk_multich(char scan, char edge)
 {
 	SIMPORT(0xC0);
 
 	__iow8(0x0027, 0x41);
 
-	msg(lpbk_info, mode_string[((edge == 0) ? 4 : 5)]);
+	msg_multich(lpbk_info);
 
 	/*
 	 * SIU initial
 	 */
 	SIMPORT(0xC1);
-	msg(siu_string, mode_string[((edge == 0) ? 4 : 5)]);
+	msg_multich(siu_string);
 
 	// initial ch0
 	siu[0].x_ofs		= 0;
@@ -739,12 +747,12 @@ int dvt_lpbk_multich(unsigned char edge)
 	siu[0].fb3		= 0x00600000;
 	siu[0].jmp		= 640*2;
 
-	siu[0].cf1.b.scan	= 0;	// 0 = progressive, 1 = interlace write
-	siu[0].cf1.b.format	= 0;	// 0 = raw8/yuv,    1 = raw10
+	siu[0].cf1.b.scan	= (scan == 'p') ? 0 : 1;	// 0 = progressive, 1 = interlace write
+	siu[0].cf1.b.format	= 0;				// 0 = raw8/yuv,    1 = raw10
 	siu[0].cf1.b.online	= 0;
 	siu[0].cf1.b.raw8lsb	= 0;
 
-	siu[0].cf2.b.ext	= (edge == 0) ? 0x0c : 0x04;
+	siu[0].cf2.b.ext	= (edge == 's') ? 0x0c : 0x04;
 	siu[0].cf2.b.sync	= 0;
 	siu[0].cf2.b.sedge	= 0;
 	siu[0].cf2.b.hmode	= 0;
@@ -759,17 +767,17 @@ int dvt_lpbk_multich(unsigned char edge)
 	siu[1].fb3		= 0x00c00000;
 	siu[1].jmp		= 640*2;
 
-	siu[1].cf1.b.scan	= 0;	// 0 = progressive, 1 = interlace write
-	siu[1].cf1.b.format	= 0;	// 0 = raw8/yuv,    1 = raw10
+	siu[1].cf1.b.scan	= (scan == 'p') ? 0 : 1;	// 0 = progressive, 1 = interlace write
+	siu[1].cf1.b.format	= 0;				// 0 = raw8/yuv,    1 = raw10
 	siu[1].cf1.b.online	= 0;
 	siu[1].cf1.b.raw8lsb	= 0;
 
-	siu[1].cf2.b.ext	= (edge == 0) ? 0x0c : 0x04;
+	siu[1].cf2.b.ext	= (edge == 's') ? 0x0c : 0x04;
 	siu[1].cf2.b.sync	= 0;
 	siu[1].cf2.b.sedge	= 0;
 	siu[1].cf2.b.hmode	= 0;
 
-	siuc.cf6.b.progressive0 = 1;	// 1 = progressive, 0 = interlace
+	siuc.cf6.b.progressive0 = (scan == 'p') ? 1 : 0;	// 1 = progressive, 0 = interlace
 	siuc.cf6.b.progressive1	= 1;
 	siuc.cf6.b.single0	= 0;	// 1 = single capture
 	siuc.cf6.b.single1	= 0;
@@ -785,9 +793,9 @@ int dvt_lpbk_multich(unsigned char edge)
 	 * SOU initial
 	 */
 	SIMPORT(0xC2);
-	msg(sou_string, mode_string[((edge == 0) ? 4 : 5)]);
+	msg_multich(sou_string);
 
-	__iow8(SOUCLK, ((edge == 0) ? 0x83 : 0x03));
+	__iow8(SOUCLK, ((edge == 's') ? 0x83 : 0x03));
 
 	souc->polarity.b.hsync		= 0;
 	souc->polarity.b.vsync		= 0;
@@ -812,22 +820,21 @@ int dvt_lpbk_multich(unsigned char edge)
 	sou0->vsync_end_line		= __le16(20);
 	sou0->vsync_end_clk		= __le16(1);
 	sou0->vactive_start		= __le16(21);
-	sou0->vactive_end		= __le16(21+480-1);
+	sou0->vactive_end		= (scan == 'p') ? __le16(21+480-1) : __le16(21+480/2-1);
 
-//	sou0->even_vsync_start_line	= __le16(264);
-//	sou0->even_vsync_start_clk	= __le16(1);
-//	sou0->even_vsync_end_line	= __le16(282);
-//	sou0->even_vsync_end_clk	= __le16(1);
-//	sou0->even_vactive_start	= __le16(283);
-//	sou0->even_vactive_end		= __le16(283+480-1);
-
+	sou0->even_vsync_start_line	= __le16(264);
+	sou0->even_vsync_start_clk	= __le16(1);
+	sou0->even_vsync_end_line	= __le16(282);
+	sou0->even_vsync_end_clk	= __le16(1);
+	sou0->even_vactive_start	= __le16(283);
+	sou0->even_vactive_end		= __le16(283+480/2-1);
 	sou0->ccir656_f_start		= __le16(265);
 	sou0->ccir656_f_end		= __le16(3);
 
 	sou0->tstmode			= GREEN;
 	sou0->mode			= 0;
 
-	sou0->cfg.b.interlace		= 0;
+	sou0->cfg.b.interlace		= (scan == 'p') ? 0 : 1;
 	sou0->cfg.b.gateclk		= 0;
 	sou0->cfg.b.enable		= 1;
 
@@ -847,22 +854,21 @@ int dvt_lpbk_multich(unsigned char edge)
 	sou1->vsync_end_line		= __le16(20);
 	sou1->vsync_end_clk		= __le16(1);
 	sou1->vactive_start		= __le16(21);
-	sou1->vactive_end		= __le16(21+480-1);
+	sou1->vactive_end		= (scan == 'p') ? __le16(21+480-1) : __le16(21+480/2-1);
 
-//	sou1->even_vsync_start_line	= __le16(264);
-//	sou1->even_vsync_start_clk	= __le16(1);
-//	sou1->even_vsync_end_line	= __le16(282);
-//	sou1->even_vsync_end_clk	= __le16(1);
-//	sou1->even_vactive_start	= __le16(283);
-//	sou1->even_vactive_end		= __le16(283+480-1);
-
+	sou1->even_vsync_start_line	= __le16(264);
+	sou1->even_vsync_start_clk	= __le16(1);
+	sou1->even_vsync_end_line	= __le16(282);
+	sou1->even_vsync_end_clk	= __le16(1);
+	sou1->even_vactive_start	= __le16(283);
+	sou1->even_vactive_end		= __le16(283+480/2-1);
 	sou1->ccir656_f_start		= __le16(265);
 	sou1->ccir656_f_end		= __le16(3);
 
 	sou1->tstmode			= RED;
 	sou1->mode			= 0;
 
-	sou1->cfg.b.interlace		= 0;
+	sou1->cfg.b.interlace		= (scan == 'p') ? 0 : 1;
 	sou1->cfg.b.gateclk		= 0;
 	sou1->cfg.b.enable		= 1;
 
@@ -870,7 +876,7 @@ int dvt_lpbk_multich(unsigned char edge)
 	 * IPU initial
 	 */
 	SIMPORT(0xC3);
-	msg(ipu_string, mode_string[((edge == 0) ? 4 : 5)]);
+	msg_multich(ipu_string);
 
 	// initial ch0
 	ipui[0].width		= 640*2;

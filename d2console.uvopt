@@ -141,60 +141,15 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>127</LineNumber>
+          <LineNumber>160</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-16754382</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>MEMORY.C</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\MEMORY\127</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>161</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16764024</Address>
+          <Address>-16767033</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>CMD_I2C.C</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\CMD_I2C\161</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>382</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16769971</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>DVT_LOOPBACK.C</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>382</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>-16769972</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>DVT_LOOPBACK.C</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -332,8 +287,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>95</TopLine>
+      <CurrentLine>101</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\common\cmd_lpbk.c</PathWithFileName>
       <FilenameWithoutPath>cmd_lpbk.c</FilenameWithoutPath>
@@ -388,8 +343,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>85</TopLine>
-      <CurrentLine>90</CurrentLine>
+      <TopLine>149</TopLine>
+      <CurrentLine>161</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\common\cmd_i2c.c</PathWithFileName>
       <FilenameWithoutPath>cmd_i2c.c</FilenameWithoutPath>
@@ -489,7 +444,7 @@
 
   <Group>
     <GroupName>drivers</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -500,7 +455,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>59</TopLine>
+      <TopLine>60</TopLine>
       <CurrentLine>66</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\drivers\serial\serial.c</PathWithFileName>
@@ -633,8 +588,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>304</TopLine>
-      <CurrentLine>304</CurrentLine>
+      <TopLine>904</TopLine>
+      <CurrentLine>904</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\dvt\dvt_loopback.c</PathWithFileName>
       <FilenameWithoutPath>dvt_loopback.c</FilenameWithoutPath>
@@ -727,7 +682,7 @@
 
   <Group>
     <GroupName>init</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -738,8 +693,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>23</TopLine>
-      <CurrentLine>38</CurrentLine>
+      <TopLine>35</TopLine>
+      <CurrentLine>41</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -752,7 +707,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>128</TopLine>
+      <TopLine>134</TopLine>
       <CurrentLine>134</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\d2startup.a51</PathWithFileName>
@@ -764,10 +719,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>21</TopLine>
-      <CurrentLine>34</CurrentLine>
+      <CurrentLine>31</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\init\init.c</PathWithFileName>
       <FilenameWithoutPath>init.c</FilenameWithoutPath>
@@ -882,37 +837,43 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>2</ActiveTab>
+      <ActiveTab>1</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>.\common\cmd_i2c.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>149</TopLine>
+          <CurrentLine>161</CurrentLine>
+        </Doc>
         <Doc>
           <Name>.\drivers\serial\serial.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>59</TopLine>
+          <TopLine>60</TopLine>
           <CurrentLine>66</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\init\d2startup.a51</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>134</TopLine>
+          <CurrentLine>134</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\init\init.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>21</TopLine>
+          <CurrentLine>31</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\init\main.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>35</TopLine>
+          <CurrentLine>41</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\include\configs.h</Name>
           <ColumnNumber>0</ColumnNumber>
           <TopLine>7</TopLine>
           <CurrentLine>7</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\init\init.c</Name>
-          <ColumnNumber>2</ColumnNumber>
-          <TopLine>21</TopLine>
-          <CurrentLine>34</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\init\d2startup.a51</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>128</TopLine>
-          <CurrentLine>134</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\init\main.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>23</TopLine>
-          <CurrentLine>38</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

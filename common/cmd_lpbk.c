@@ -90,22 +90,29 @@ command_t	cmd_lpbk656p_t = {
 
 void cmd_multich(int argc, const char *argv[])
 {
-	unsigned char	edge;
+	char	scan;
+	char	edge;
 
-	if (argc != 2) {
+	if (argc != 3) {
 		printf("invalid 'multich' command: too few(many) arguments\n");
 		return;
 	}
 
-	edge = (unsigned char) strtoul(argv[1], NULL, 16);
-	dvt_lpbk_multich(edge);
-
+	scan = argv[1][0];
+	edge = argv[2][0];
+	if ((scan != 'i') && (scan != 'p')) {
+		scan = 'p';
+	}
+	if ((edge != 's') && (edge != 'd')) {
+		edge = 's';
+	}
+	dvt_lpbk_multich(scan, edge);
 }
 
 command_t	cmd_multich_t = {
 	"multich",
 	cmd_multich,
-	"multich <edge> \t\t\t-- CCIR-656 multi-channel"
+	"multich <scan> <edge> \t\t-- CCIR-656 multi-channel"
 };
 
 

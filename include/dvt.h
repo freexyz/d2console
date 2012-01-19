@@ -33,7 +33,7 @@ extern int		dvt_lpbk_stop(void);
 extern int		dvt_lpbk_raw8(void);
 extern int		dvt_lpbk_ccir656i(void);
 extern int		dvt_lpbk_ccir656p(void);
-extern int		dvt_lpbk_multich(unsigned char edge);
+extern int		dvt_lpbk_multich(char scan, char edge);
 extern int		dvt_accurate(void);
 extern int		dvt_align(void);
 extern int		dvt_fussy(void);

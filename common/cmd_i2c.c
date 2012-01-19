@@ -148,15 +148,17 @@ void cmd_hsntst(int argc, const char *argv[])
 {
 	unsigned short	reg;
 	unsigned char	val;
-	unsigned char	i, j, k;
+	unsigned char	i, j;
+	unsigned long	k;
 
-	argv[1] = NULL;
-	if (argc != 1) {
+	if (argc != 2) {
 		printf("invalid 'hsntst' command: too few(many) arguments\n");
 		return;
 	}
 
-	for (k=0; k<1; k++) {
+	k = strtoul(argv[1], NULL, 16);
+	k = (k == 0) ? ++k : k;
+	while (k--) {
 		// test register file
 		printf("test register file...\n");
 		for (j=0; j<(sizeof(regmap)/sizeof(unsigned short)); j++) {
@@ -209,5 +211,5 @@ void cmd_hsntst(int argc, const char *argv[])
 command_t	cmd_hsntst_t = {
 	"hsntst",
 	cmd_hsntst,
-	"hsntst \t\t\t\t-- host sensor interface test"
+	"hsntst <count32> \t\t\t-- host sensor interface test"
 };
