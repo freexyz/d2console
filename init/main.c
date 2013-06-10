@@ -64,6 +64,7 @@ void main(void)
 	/* main menu */
 	printf(d2_banner, __DATE__ , __TIME__);
 
+	/* start */
 	SIMPORT(0x40);
 	terminal();
 }
